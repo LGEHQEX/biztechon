@@ -1,656 +1,664 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>교육 운영 디지털 전환</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap');
-@font-face{font-family:'GmarketSans';font-weight:300;font-style:normal;
-  src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff')}
-@font-face{font-family:'GmarketSans';font-weight:500;font-style:normal;
-  src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff')}
-@font-face{font-family:'GmarketSans';font-weight:700;font-style:normal;
-  src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff')}
-</style>
-<style>
-:root{
-  --sky:#A50034; --sky2:#8B0028; --sky3:#6E001F;
-  --sky-soft:#FBF0F4; --sky-line:#F2C6D2;
-  --ink:#353434; --sub:#78808A; --body:#4A5058;
-  --bg:#F9F5F5; --card:#FFFFFF; --line:#EAE2E4;
-  --gray:#F9F2F4; --gray2:#DDD4D6;
-}
+@font-face{font-family:'GMS';font-weight:300;src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff')}
+@font-face{font-family:'GMS';font-weight:500;src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff')}
+@font-face{font-family:'GMS';font-weight:700;src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff')}
+:root{--r:#A50034;--r2:#8B0028;--dk:#111;--tx:#333;--su:#888;--lt:#F5F5F5;--bd:#E8E8E8;--wh:#fff}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;background:#E6D8DA;overflow:hidden;
-  font-family:'GmarketSans',"Malgun Gothic",sans-serif;
-  -webkit-font-smoothing:antialiased}
+html,body{height:100%;background:#D0D0D0;overflow:hidden;
+  font-family:'GMS','Noto Sans KR','Malgun Gothic',sans-serif;-webkit-font-smoothing:antialiased}
 #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
 #deck{width:1280px;height:720px;position:relative;overflow:hidden;
-  box-shadow:0 24px 64px rgba(80,0,20,.28);border-radius:8px;
-  transform-origin:center}
-.slide{position:absolute;inset:0;display:none}
-.slide.on{display:block;animation:fi .3s ease}
-@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
-#bar{position:absolute;top:0;left:0;height:3px;background:var(--sky);width:0;transition:width .3s;z-index:9}
+  box-shadow:0 28px 80px rgba(0,0,0,.35);border-radius:3px;transform-origin:center}
+.slide{position:absolute;inset:0;display:none;background:#fff}
+.slide.on{display:block;animation:fi .28s ease}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+#bar{position:absolute;top:0;left:0;height:3px;background:var(--r);z-index:9;width:0;transition:width .3s}
 
-/* 헤더 */
-.hb{position:absolute;top:0;left:0;right:0;height:36px;display:flex;align-items:center;
-  justify-content:space-between;padding:0 36px;background:#fff;border-bottom:1px solid var(--line);z-index:3}
-.hb span{font-size:11px;color:var(--sub);letter-spacing:.04em}
-.hb-dk{background:rgba(0,0,0,.18);border-bottom:none}
-.hb-dk span{color:rgba(255,255,255,.62)}
+/* 공통 헤더 */
+.hb{position:absolute;top:0;left:0;right:0;height:44px;display:flex;align-items:center;
+  justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--bd);background:#fff;z-index:4}
+.hb .hl{font-size:11px;color:var(--su);letter-spacing:.05em;font-weight:500}
+.hb .hr{display:flex;align-items:center;gap:7px}
+.hb .hr img{height:18px;object-fit:contain;vertical-align:middle}
+.hb .hr .lf{display:none;font-size:11.5px;font-weight:700;color:var(--r)}.hb .hr .lf em{color:var(--su);font-style:normal;font-weight:500}
+.hb-dk{background:rgba(0,0,0,.15);border-bottom:1px solid rgba(255,255,255,.1)}
+.hb-dk .hl,.hb-dk .hr .lf{color:rgba(255,255,255,.65)}
 
-/* 케이스 슬라이드 공통 */
-.ci{position:absolute;inset:0;background:var(--bg)}
-.c-badge{position:absolute;top:42px;left:44px;display:flex;align-items:center;gap:10px}
-.c-num{width:32px;height:32px;border-radius:50%;background:var(--sky);
-  color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
-.c-ey{font-size:12px;font-weight:700;color:var(--sky2);letter-spacing:.12em}
-.c-title{position:absolute;top:82px;left:44px;right:44px;
-  font-size:22px;font-weight:700;color:var(--ink);line-height:1.3}
-.c-ba{position:absolute;left:44px;right:44px;top:122px;height:379px;
-  display:grid;grid-template-columns:1fr 46px 1.18fr;gap:0;align-items:stretch}
-.c-next{position:absolute;left:44px;right:44px;top:511px;height:auto;
-  background:#fff;border:1px solid var(--line);border-radius:12px;
-  padding:12px 20px 14px;box-shadow:0 2px 8px rgba(100,20,40,.05);display:flex;flex-direction:column}
-.cn-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--sky3);margin-bottom:7px}
-.cn-items{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-content:start}
-.cn-items li{font-size:12px;color:var(--body);padding:5px 0 5px 13px;position:relative;line-height:1.4}
-.cn-items li::before{content:"";position:absolute;left:2px;top:10px;width:4px;height:4px;border-radius:50%;background:var(--sky2)}
-.c-bef{background:var(--gray);border-radius:14px;padding:20px 22px}
-.c-arr{display:flex;align-items:center;justify-content:center;
-  font-size:22px;color:var(--sky2);font-weight:700}
-.c-aft{background:var(--card);border:1.5px solid var(--sky-line);border-radius:14px;
-  padding:20px 22px;box-shadow:0 2px 14px rgba(165,0,52,.12)}
-.cc-label{font-size:10.5px;font-weight:700;letter-spacing:.12em;margin-bottom:10px;display:block}
-.lb-bef{color:#92979E}
-.lb-aft{color:var(--sky2)}
-.c-ba ul{list-style:none;display:flex;flex-direction:column;gap:0}
-.c-ba li{font-size:13px;color:var(--body);padding:6px 0 6px 15px;position:relative;line-height:1.45;border-bottom:1px solid transparent}
-.c-bef li{border-bottom-color:#E8EAF0}
-.c-bef li:last-child{border-bottom:none}
-.c-aft li{border-bottom-color:#F7D5DC}
-.c-aft li:last-child{border-bottom:none}
-.c-bef li::before{content:"";position:absolute;left:2px;top:12px;width:5px;height:5px;border-radius:50%;background:#BCC2CC}
-.c-aft li::before{content:"";position:absolute;left:2px;top:12px;width:5px;height:5px;border-radius:50%;background:var(--sky)}
-.c-aft li.key{font-weight:700;color:var(--ink);font-size:13.5px}
-.c-aft li.key::before{background:var(--sky2)}
-.c-stats{display:flex;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--sky-line)}
-.c-stat{background:var(--sky-soft);border:1px solid var(--sky-line);border-radius:8px;
-  padding:5px 12px;font-size:12px;font-weight:700;color:var(--sky2)}
-
-/* 데모 바 */
-.demo{position:absolute;bottom:0;left:0;right:0;height:76px;
-  background:linear-gradient(90deg,var(--sky2) 0%,var(--sky) 100%);
-  display:flex;align-items:center;padding:0 28px;gap:20px;z-index:4}
-.demo-icon{font-size:22px;flex:none;animation:blink 2.5s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}
-.demo-txt{font-size:16px;font-weight:700;color:#fff;letter-spacing:.03em;flex:none}
-.demo-div{width:1px;height:30px;background:rgba(255,255,255,.35);flex:none}
-.demo-links{display:flex;gap:10px;flex:1;flex-wrap:wrap}
-.demo-link{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.45);
-  border-radius:9px;padding:8px 18px;text-decoration:none;color:#fff;
-  font-size:13px;font-weight:700;transition:all .18s;display:flex;align-items:center;gap:6px}
-.demo-link:hover{background:rgba(255,255,255,.35);border-color:rgba(255,255,255,.7)}
-.demo-link .dl-name{font-size:13px}
-.demo-link .dl-url{font-size:10.5px;opacity:.7;margin-top:1px;display:block}
-
-/* 카드 */
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  box-shadow:0 2px 10px rgba(100,20,40,.06)}
-
-/* 조작 UI */
-#nav{position:absolute;right:14px;bottom:12px;display:flex;gap:5px;align-items:center;z-index:10}
-#nav button{border:1px solid rgba(0,0,0,.15);background:rgba(255,255,255,.85);border-radius:7px;
-  width:28px;height:28px;cursor:pointer;font-size:13px;color:var(--sub)}
-#nav button:hover{border-color:var(--sky);color:var(--sky2)}
-#pn{font-size:11px;color:var(--sub)}
-#hint{position:absolute;left:14px;bottom:14px;font-size:10.5px;color:#A0AAB4;z-index:10}
-#sp{position:absolute;left:0;right:0;bottom:0;background:rgba(25,40,58,.97);color:#E0EAF4;
-  padding:18px 50px 22px;font-size:13.5px;line-height:1.75;
+/* 네비 */
+#nav{position:absolute;right:14px;bottom:12px;display:flex;gap:4px;align-items:center;z-index:10}
+#nav button{border:1px solid var(--bd);background:rgba(255,255,255,.9);border-radius:5px;
+  width:26px;height:26px;cursor:pointer;font-size:13px;color:var(--su)}
+#nav button:hover{background:var(--r);color:#fff;border-color:var(--r)}
+#pn{font-size:10px;color:#BBB}
+#hint{position:absolute;left:14px;bottom:13px;font-size:10px;color:#CCC;z-index:10}
+#sp{position:absolute;left:0;right:0;bottom:0;background:rgba(8,8,8,.97);color:#CCC;
+  padding:16px 48px 20px;font-size:13px;line-height:1.8;
   transform:translateY(100%);transition:transform .25s;z-index:12}
 #sp.on{transform:none}
-#sp .t{font-size:10px;font-weight:700;letter-spacing:.14em;color:#8FCBEE;margin-bottom:6px}
+#sp .t{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--r);margin-bottom:5px}
 
-/* ── 1. 표지 ── */
-#s1{background:linear-gradient(155deg,#FAF5F6 0%,#F5ECED 100%);position:absolute;inset:0}
-#s1 .bl1{position:absolute;top:-70px;right:-50px;width:280px;height:280px;border-radius:50%;background:rgba(165,0,52,.07)}
-#s1 .bl2{position:absolute;bottom:-50px;left:-30px;width:200px;height:200px;border-radius:50%;background:rgba(91,179,230,.05)}
-#s1 .ht{position:absolute;top:20px;left:36px;font-size:11px;color:var(--sub)}
-#s1 .ht2{position:absolute;top:20px;right:36px;font-size:11px;color:var(--sub)}
-#s1 .lft{position:absolute;left:0;top:0;width:480px;height:720px;display:flex;align-items:center;justify-content:center}
-#s1 .rgt{position:absolute;right:48px;top:0;left:492px;height:720px;display:flex;flex-direction:column;justify-content:center}
-#s1 .ey{font-size:13px;color:var(--sky2);font-weight:700;letter-spacing:.12em;margin-bottom:14px}
-#s1 h1{font-size:60px;font-weight:700;color:var(--ink);line-height:1.12;letter-spacing:-.02em;margin-bottom:18px}
-#s1 .sub{font-size:18px;color:var(--body);margin-bottom:30px}
-#s1 .meta{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;width:fit-content;margin-bottom:26px}
-#s1 .ml{padding:9px 18px;font-size:14px;font-weight:700;color:var(--ink);border-right:1px solid var(--line)}
-#s1 .mr{padding:9px 18px;font-size:14px;color:var(--sub)}
-#s1 .chips{display:flex;gap:8px;flex-wrap:wrap}
-#s1 .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;
-  padding:5px 12px;border-radius:99px;border:1px solid var(--line);background:#fff;color:var(--body)}
-#s1 .chip .d{width:7px;height:7px;border-radius:50%}
-#s1 .ft{position:absolute;bottom:22px;right:48px;font-size:11px;color:#A0AAB4;letter-spacing:.06em}
+/* ══════════ 슬라이드 1 — 표지 ══════════ */
+#s1{background:#fff}
+/* 왼쪽 레드 패널 */
+#s1 .lp{position:absolute;left:0;top:0;width:480px;height:720px;background:var(--r);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:52px 48px}
+#s1 .lp .ev{font-size:11px;font-weight:500;letter-spacing:.2em;color:rgba(255,255,255,.6);margin-bottom:32px}
+#s1 .lp h1{font-size:68px;font-weight:700;color:#fff;line-height:1.08;letter-spacing:-.02em;margin-bottom:20px}
+#s1 .lp .sub{font-size:16px;color:rgba(255,255,255,.75);line-height:1.6;font-weight:500;margin-bottom:40px}
+#s1 .lp .author{font-size:13px;color:rgba(255,255,255,.6);font-weight:500;line-height:1.7}
+/* 오른쪽 화이트 패널 */
+#s1 .rp{position:absolute;left:480px;right:0;top:0;height:720px;
+  display:flex;flex-direction:column;justify-content:center;padding:48px 52px}
+#s1 .rp .sec-label{font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--r);margin-bottom:36px}
+#s1 .sys-card{padding:20px 24px;border-left:3px solid var(--bd);margin-bottom:12px;transition:border-color .2s}
+#s1 .sys-card:hover{border-left-color:var(--r)}
+#s1 .sys-card .sn{font-size:11px;font-weight:700;color:var(--r);letter-spacing:.1em;margin-bottom:6px}
+#s1 .sys-card .st{font-size:18px;font-weight:700;color:var(--dk);margin-bottom:4px}
+#s1 .sys-card .sd{font-size:13px;color:var(--su);font-weight:500}
+#s1 .footer{position:absolute;bottom:24px;right:52px;font-size:11px;color:#CCC}
 
-/* ── 2. 배경 & 제작방식 ── */
-#s2{background:var(--bg);position:absolute;inset:0}
-#s2 .stitle{position:absolute;top:46px;left:44px;font-size:26px;font-weight:700;color:var(--ink)}
-#s2 .ssub{position:absolute;top:84px;left:44px;font-size:13px;color:var(--sub)}
-#s2 .dv{position:absolute;left:50%;top:110px;bottom:36px;width:1px;background:var(--line)}
-#s2 .lft{position:absolute;left:44px;right:54%;top:110px;display:flex;flex-direction:column;gap:12px;padding-top:12px}
-#s2 .rgt{position:absolute;left:52%;right:36px;top:110px;padding-top:12px;display:flex;flex-direction:column;gap:0}
-#s2 .prob{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;
-  box-shadow:0 2px 8px rgba(100,20,40,.05)}
-#s2 .prob .ico{font-size:22px;margin-bottom:8px}
-#s2 .prob .pt{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px}
-#s2 .prob .pb{font-size:12.5px;color:var(--sub);line-height:1.45}
-#s2 .rgt-title{font-size:12px;font-weight:700;color:var(--sky2);letter-spacing:.1em;margin-bottom:16px}
-#s2 .flow{display:flex;flex-direction:column;gap:6px}
-#s2 .fn{background:#fff;border:1px solid var(--line);border-radius:10px;
-  padding:12px 16px;display:flex;align-items:center;gap:12px;
-  box-shadow:0 2px 6px rgba(100,20,40,.04)}
-#s2 .fn .fi{font-size:22px;flex:none}
-#s2 .fn .ft{font-size:13.5px;font-weight:700;color:var(--ink)}
-#s2 .fn .fs{font-size:11.5px;color:var(--sub)}
-#s2 .fn-arr{text-align:center;font-size:14px;color:var(--sky-line);margin:0 16px}
-#s2 .bots{position:absolute;bottom:30px;left:44px;right:36px;display:flex;gap:10px;justify-content:center}
-#s2 .bchip{background:var(--sky-soft);border:1px solid var(--sky-line);border-radius:99px;
-  padding:7px 18px;font-size:12.5px;font-weight:700;color:var(--sky2)}
+/* ══════════ 슬라이드 2 — 목차 ══════════ */
+#s2{background:var(--lt)}
+#s2 .title-row{position:absolute;top:44px;left:0;right:0;padding:36px 52px 28px;background:#fff;
+  border-bottom:1px solid var(--bd)}
+#s2 .title-row h2{font-size:36px;font-weight:700;color:var(--dk);letter-spacing:-.02em}
+#s2 .title-row p{font-size:14px;color:var(--su);font-weight:500;margin-top:6px}
+#s2 .toc-grid{position:absolute;top:200px;left:52px;right:52px;display:grid;
+  grid-template-columns:1fr 1fr;gap:16px}
+#s2 .tc{background:#fff;border:1px solid var(--bd);border-radius:4px;padding:28px 32px;
+  border-top:3px solid var(--bd);transition:border-top-color .2s}
+#s2 .tc.active{border-top-color:var(--r)}
+#s2 .tc .tn{font-size:42px;font-weight:700;color:var(--bd);letter-spacing:-.02em;line-height:1;margin-bottom:12px}
+#s2 .tc.active .tn{color:var(--r)}
+#s2 .tc .tt{font-size:20px;font-weight:700;color:var(--dk);margin-bottom:6px}
+#s2 .tc .td{font-size:13px;color:var(--su);font-weight:500;line-height:1.6}
+#s2 .tc .demo-badge{display:inline-block;background:var(--r);color:#fff;
+  font-size:10px;font-weight:700;padding:3px 9px;border-radius:3px;margin-top:10px;letter-spacing:.08em}
+#s2 .note{position:absolute;bottom:24px;left:52px;right:52px;
+  background:#fff;border:1px solid var(--bd);border-radius:4px;padding:14px 24px;
+  font-size:13px;color:var(--su);font-weight:500;text-align:center}
 
-/* ── 6. 성과 & 다음 단계 ── */
-/* ── 슬라이드 6 성과 & 다음 단계 ── */
-#s6{background:var(--bg);position:absolute;inset:0}
-#s6 .s6t{position:absolute;top:46px;left:50%;transform:translateX(-50%);
-  font-size:24px;font-weight:700;color:var(--ink);white-space:nowrap}
-#s6 .s6k{position:absolute;left:32px;right:32px;top:84px;height:174px;
-  display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.s6ki{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:0 18px 14px;box-shadow:0 2px 8px rgba(100,20,40,.05);overflow:hidden}
-.s6kb{height:4px;border-radius:12px 12px 0 0;margin-bottom:12px}
-.s6kn{font-size:46px;font-weight:700;color:var(--sky);line-height:1;letter-spacing:-.02em}
-.s6ku{font-size:20px;font-weight:700;color:var(--sky2);vertical-align:bottom;line-height:1.5}
-.s6kl{font-size:12px;color:var(--sub);margin-top:6px}
-.s6ks{font-size:11px;color:#B8AEB0;margin-top:2px}
-#s6 .s6m{position:absolute;left:32px;right:32px;top:268px;bottom:26px;
-  display:grid;grid-template-columns:2fr 1px 3fr;gap:0}
-#s6 .s6l{padding-right:22px;display:flex;flex-direction:column;justify-content:space-between;padding-top:4px}
-#s6 .s6dv{background:var(--line)}
-#s6 .s6r{padding-left:22px;display:flex;flex-direction:column;gap:8px;padding-top:4px}
-.s6sec{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--sky2);margin-bottom:8px}
-.s6desc{font-size:13px;color:var(--body);line-height:1.7}
-.s6tags{display:flex;gap:8px;flex-wrap:wrap}
-.s6tag{background:var(--sky);color:#fff;font-size:12.5px;font-weight:700;padding:6px 16px;border-radius:99px}
-.s6step{display:flex;align-items:flex-start;gap:10px;background:var(--card);
-  border:1px solid var(--line);border-radius:10px;padding:10px 14px;flex:1}
-.s6bdg{width:22px;height:22px;border-radius:50%;color:#fff;font-size:11px;
-  font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
-.s6sb{flex:1;min-width:0}
-.s6sst{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;
-  display:inline-block;margin-bottom:4px}
-.s6st{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:2px}
-.s6sd{font-size:11.5px;color:var(--sub);line-height:1.4}
+/* ══════════ 슬라이드 3 — 배경 ══════════ */
+#s3{background:#fff}
+#s3 .s3-head{position:absolute;top:44px;left:0;right:0;padding:30px 52px;
+  border-bottom:1px solid var(--bd)}
+#s3 .s3-head h2{font-size:30px;font-weight:700;color:var(--dk);letter-spacing:-.02em}
+#s3 .s3-head p{font-size:14px;color:var(--su);font-weight:500;margin-top:6px}
+#s3 .left{position:absolute;top:168px;left:0;width:52%;bottom:0;border-right:1px solid var(--bd);padding:32px 52px}
+#s3 .right{position:absolute;top:168px;left:52%;right:0;bottom:0;padding:32px 52px}
+#s3 .sec-title{font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--r);margin-bottom:24px}
+/* 문제 카드 */
+#s3 .prob{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px;
+  padding-bottom:20px;border-bottom:1px solid var(--bd)}
+#s3 .prob:last-child{border-bottom:none;margin-bottom:0}
+#s3 .prob .pn{font-size:28px;font-weight:700;color:var(--bd);line-height:1;flex:none;width:36px}
+#s3 .prob .pt{font-size:17px;font-weight:700;color:var(--dk);margin-bottom:4px}
+#s3 .prob .pd{font-size:13px;color:var(--su);font-weight:500;line-height:1.5}
+/* 스택 */
+#s3 .stack-item{display:flex;align-items:center;gap:14px;padding:13px 16px;
+  background:var(--lt);border-radius:4px;margin-bottom:10px}
+#s3 .stack-item .si{font-size:22px;flex:none}
+#s3 .stack-item .sn{font-size:15px;font-weight:700;color:var(--dk)}
+#s3 .stack-item .sd{font-size:12px;color:var(--su);font-weight:500}
+#s3 .stack-arr{text-align:center;color:var(--bd);font-size:11px;padding:2px 0 2px 16px}
+#s3 .chips-r{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;padding-top:20px;border-top:1px solid var(--bd)}
+#s3 .cr{background:var(--dk);color:#fff;font-size:11px;font-weight:700;
+  padding:6px 14px;border-radius:3px;letter-spacing:.04em}
 
-#s7{background:linear-gradient(135deg,#6e001f 0%,#A50034 50%,#C4003E 100%);position:absolute;inset:0}
-#s7 .bl1{position:absolute;top:-70px;left:-70px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07)}
-#s7 .lft{position:absolute;left:0;top:0;width:450px;height:720px;display:flex;align-items:center;justify-content:center;z-index:1}
-#s7 .rgt{position:absolute;right:40px;left:460px;top:0;height:720px;display:flex;flex-direction:column;justify-content:center;z-index:2}
-#s7 .ey{font-size:13px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.7);margin-bottom:14px}
-#s7 h2{font-size:50px;font-weight:700;color:#fff;line-height:1.18;margin-bottom:20px;letter-spacing:-.01em}
-#s7 .tg{font-size:17px;color:rgba(255,255,255,.85);margin-bottom:36px;line-height:1.6}
-#s7 .mt{border-top:1px solid rgba(255,255,255,.25);padding-top:20px;font-size:13.5px;color:rgba(255,255,255,.75);margin-bottom:14px}
-#s7 .lks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-#s7 .lk{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);
-  border-radius:8px;padding:10px 14px;text-decoration:none;display:block}
-#s7 .lk:hover{background:rgba(255,255,255,.24)}
-#s7 .ln{font-size:12.5px;font-weight:700;color:#fff;margin-bottom:2px}
-#s7 .lu{font-size:10.5px;color:rgba(255,255,255,.62)}
+/* ══════════ 케이스 슬라이드 공통 ══════════ */
+.ci{background:#fff;position:absolute;inset:0}
+.ci .top-r{position:absolute;top:0;left:0;right:0;height:4px;background:var(--r);z-index:5}
+.ci .badge{position:absolute;top:50px;left:40px;display:flex;align-items:center;gap:10px}
+.ci .badge .bn{width:28px;height:28px;border-radius:50%;background:var(--r);
+  color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.ci .badge .be{font-size:11px;font-weight:700;color:var(--r);letter-spacing:.16em}
+.ci .c-title{position:absolute;top:84px;left:40px;right:40px;
+  font-size:20px;font-weight:700;color:var(--dk);line-height:1.3;letter-spacing:-.01em}
+.ci .c-title em{color:var(--r);font-style:normal}
+/* 콘텐츠 구역 */
+.ci .cl{position:absolute;top:126px;left:0;width:53%;bottom:54px;
+  padding:28px 36px 20px;border-right:1px solid var(--bd);display:flex;flex-direction:column}
+.ci .cr-panel{position:absolute;top:126px;left:53%;right:0;bottom:54px;
+  background:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px}
+/* Before / After */
+.ci .ba-row{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--bd)}
+.ci .ba-row:last-of-type{border-bottom:none}
+.ci .ba-before{display:flex;gap:8px;align-items:baseline;margin-bottom:6px}
+.ci .ba-before .bbl{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--su);
+  background:var(--lt);padding:2px 8px;border-radius:3px;flex:none}
+.ci .ba-before .bbt{font-size:13.5px;color:var(--su);font-weight:500;text-decoration:line-through}
+.ci .ba-after{display:flex;gap:8px;align-items:baseline}
+.ci .ba-after .abl{font-size:10px;font-weight:700;letter-spacing:.1em;color:#fff;
+  background:var(--r);padding:2px 8px;border-radius:3px;flex:none}
+.ci .ba-after .abt{font-size:14.5px;color:var(--dk);font-weight:700}
+/* 데모 패널 내부 */
+.ci .demo-label{font-size:11px;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.6);margin-bottom:12px}
+.ci .demo-big{font-size:28px;font-weight:700;color:#fff;margin-bottom:28px;line-height:1.2}
+.ci .demo-links{display:flex;flex-direction:column;gap:8px;width:100%}
+.ci .demo-link{background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.35);
+  border-radius:5px;padding:10px 16px;color:#fff;text-decoration:none;
+  font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between;
+  transition:background .18s;cursor:pointer}
+.ci .demo-link:hover{background:rgba(255,255,255,.28)}
+.ci .demo-link .dl-url{font-size:10.5px;color:rgba(255,255,255,.55);font-weight:500}
+/* 넥스트 스텝 */
+.ci .ns-bar{position:absolute;bottom:0;left:0;right:0;height:54px;background:var(--lt);
+  border-top:1px solid var(--bd);display:flex;align-items:center;padding:0 32px;gap:0}
+.ci .ns-label{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--r);
+  padding-right:16px;border-right:1px solid var(--bd);margin-right:16px;white-space:nowrap;flex:none}
+.ci .ns-items{display:flex;gap:20px;flex-wrap:wrap}
+.ci .ns-item{font-size:12px;color:var(--su);font-weight:500;position:relative;padding-left:12px}
+.ci .ns-item::before{content:"";position:absolute;left:0;top:5px;width:5px;height:5px;
+  border-radius:50%;background:var(--bd)}
 
-/* ── 데모 슬라이딩 패널 ── */
-#demo-panel{position:absolute;top:36px;right:0;bottom:0;width:0;overflow:hidden;
-  background:#fff;box-shadow:-6px 0 28px rgba(20,50,100,.22);
-  transition:width .38s cubic-bezier(.4,0,.2,1);z-index:8}
+/* 슬라이딩 데모 패널 */
+#demo-panel{position:absolute;top:44px;right:0;bottom:0;width:0;overflow:hidden;
+  background:#fff;box-shadow:-8px 0 32px rgba(0,0,0,.22);
+  transition:width .36s cubic-bezier(.4,0,.2,1);z-index:8}
 #demo-panel.open{width:82%}
-#dpbar{position:absolute;top:0;left:0;right:0;height:36px;
-  background:var(--sky2);display:flex;align-items:center;padding:0 12px;gap:10px;z-index:2}
-#dp-title{font-size:12px;font-weight:700;color:#fff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.04em}
-#dp-close,#dp-newtab{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.2);
-  border:1.5px solid rgba(255,255,255,.5);color:#fff;font-size:14px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;flex:none;line-height:1}
-#dp-close:hover,#dp-newtab:hover{background:rgba(255,255,255,.38)}
-#dp-newtab{font-size:13px;font-weight:700;}
-#dp-iframe{position:absolute;top:36px;left:0;right:0;bottom:0;border:none;display:block;width:100%;height:calc(100% - 36px)}
-#demo-overlay{position:absolute;top:36px;left:0;bottom:0;width:0;
-  background:rgba(80,0,20,0);transition:background .38s,width .38s;z-index:7;cursor:pointer}
-#demo-overlay.open{width:18%;background:rgba(80,0,20,.32)}
+#dpbar{position:absolute;top:0;left:0;right:0;height:38px;background:var(--r);
+  display:flex;align-items:center;padding:0 12px;gap:10px;z-index:2}
+#dp-title{font-size:12px;font-weight:700;color:#fff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dp-close,#dp-new{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.2);
+  border:1.5px solid rgba(255,255,255,.5);color:#fff;font-size:13px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex:none}
+#dp-close:hover,#dp-new:hover{background:rgba(255,255,255,.38)}
+#dp-new{font-size:12px;font-weight:700}
+#dp-iframe{position:absolute;top:38px;left:0;right:0;bottom:0;border:none;width:100%;height:calc(100% - 38px)}
+#demo-ov{position:absolute;top:44px;left:0;bottom:0;width:0;
+  background:rgba(0,0,0,0);transition:all .36s;z-index:7;cursor:pointer}
+#demo-ov.open{width:18%;background:rgba(0,0,0,.42)}
+
+/* ══════════ 케이스 슬라이드 v2 — 리스트/통계/표 ══════════ */
+.cs-head{position:absolute;top:44px;left:0;right:0;padding:26px 40px 16px}
+.cs-eyebrow{font-size:11px;font-weight:700;color:var(--r);letter-spacing:.16em;
+  margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.cs-eyebrow .bn{width:20px;height:20px;border-radius:50%;background:var(--r);color:#fff;
+  font-size:10.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.cs-title{font-size:24px;font-weight:700;color:var(--dk);display:flex;align-items:center;gap:11px;letter-spacing:-.01em}
+.cs-title::before{content:"";width:5px;height:22px;background:var(--r);border-radius:2px;flex:none}
+.cs-sub{font-size:13px;color:var(--su);font-weight:500;font-style:italic;margin-top:8px;padding-left:16px}
+.cs-div{height:1px;background:var(--bd);margin-top:16px}
+.cs-body{position:absolute;left:40px;right:40px;top:198px;bottom:100px}
+
+/* Case 01 — 리스트 2열 */
+.cs-body.list-2col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ba2{border:1px solid var(--bd);border-radius:8px;background:#fff;
+  padding:20px 24px 16px;display:flex;flex-direction:column;overflow:hidden}
+.ba2.before{border-top:3px solid #C9C9C9}
+.ba2.after{border-top:3px solid var(--r)}
+.ba2-h{font-size:15px;font-weight:700;padding-bottom:11px;margin-bottom:8px;border-bottom:1px solid var(--bd)}
+.ba2.before .ba2-h{color:#9A9A9A}
+.ba2.after .ba2-h{color:var(--r)}
+.ba2-list{list-style:none;display:flex;flex-direction:column}
+.ba2-item{display:flex;gap:9px;padding:8px 0;font-size:13px;line-height:1.5}
+.ba2-item .mk{flex:none;width:15px;font-weight:700;text-align:center}
+.ba2.before .mk{color:#CBCBCB}
+.ba2.after .mk{color:var(--r)}
+.ba2.before .ba2-item{color:#9A9A9A}
+.ba2.after .ba2-item{color:var(--tx)}
+.ba2.after .ba2-item b{color:var(--dk);font-weight:700}
+
+/* Case 02 — 통계 + 리스트 */
+.cs-body.stat-list{display:grid;grid-template-columns:270px 1fr;gap:20px}
+.stat-card{border:1px solid var(--bd);border-radius:8px;background:var(--lt);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.stat-num{font-size:74px;font-weight:700;color:var(--r);line-height:1;letter-spacing:-.03em}
+.stat-label{font-size:12.5px;color:var(--su);font-weight:700;margin-top:12px;text-align:center;line-height:1.5}
+.info-card{border:1px solid var(--bd);border-radius:8px;background:#fff;padding:22px 26px}
+.info-title{font-size:16px;font-weight:700;color:var(--dk);margin-bottom:14px}
+.info-list{list-style:none;display:flex;flex-direction:column}
+.info-item{display:flex;gap:9px;padding:8px 0;font-size:13px;color:var(--tx);line-height:1.5}
+.info-item .ar{color:var(--r);font-weight:700;flex:none}
+.info-item b{color:var(--dk);font-weight:700}
+
+/* Case 03 — 비교 표 */
+.cs-body.table-wrap{display:flex;flex-direction:column;overflow:hidden}
+table.cmp{width:100%;border-collapse:collapse;table-layout:fixed}
+.cmp col.c1{width:19%}.cmp col.c2{width:40.5%}.cmp col.c3{width:40.5%}
+.cmp th{font-size:12px;font-weight:700;padding:11px 18px;text-align:left}
+.cmp th.h1{background:var(--dk);color:#fff}
+.cmp th.h2{background:var(--lt);color:var(--su)}
+.cmp th.h3{background:var(--r);color:#fff}
+.cmp td{padding:13px 18px;font-size:12.5px;color:var(--tx);border-bottom:1px solid var(--bd);vertical-align:top;line-height:1.5}
+.cmp td.rowh{font-weight:700;color:var(--dk);background:var(--lt)}
+.tag{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:3px;margin-right:6px;vertical-align:1px}
+.tag.gy{background:#EAEAEA;color:#999}
+.tag.rd{background:var(--r);color:#fff}
+.cmp td b{color:var(--dk)}
+
+/* NEXT STEP 다크 바 */
+.ns2-bar{position:absolute;left:0;right:0;bottom:58px;height:42px;background:var(--dk);
+  display:flex;align-items:center;padding:0 40px;gap:10px}
+.ns2-ic{color:var(--r);font-size:13px;flex:none}
+.ns2-label{font-size:11px;font-weight:700;color:#fff;letter-spacing:.08em;flex:none}
+.ns2-text{font-size:12px;color:#AAA;font-weight:500}
+.ns2-text b{color:#fff;font-weight:700}
+
+/* 데모 바 (하단 복원) */
+.demo2{position:absolute;left:0;right:0;bottom:0;height:58px;background:var(--r);
+  display:flex;align-items:center;padding:0 24px;gap:14px;z-index:4}
+.demo2-ic{font-size:16px;color:#fff;flex:none}
+.demo2-txt{font-size:14px;font-weight:700;color:#fff;flex:none;letter-spacing:.04em}
+.demo2-sep{width:1px;height:24px;background:rgba(255,255,255,.3);flex:none}
+.demo2-links{display:flex;gap:8px;flex:1;flex-wrap:wrap;align-items:center}
+.demo2-link{background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.42);
+  border-radius:5px;padding:7px 14px;color:#fff;text-decoration:none;font-size:12px;font-weight:700;
+  cursor:pointer;transition:background .16s;line-height:1.3}
+.demo2-link:hover{background:rgba(255,255,255,.3)}
+.demo2-link .u{display:block;font-size:9.5px;opacity:.62;font-weight:500;margin-top:1px}
+
+/* ══════════ 슬라이드 7 — 마무리 ══════════ */
+/* ══════════ 슬라이드 7 — 종합 추진 방향 (화이트) ══════════ */
+#s7{background:#fff}
+#s7 .fd-head{position:absolute;top:44px;left:0;right:0;padding:34px 52px 18px}
+#s7 .fd-title{font-size:27px;font-weight:700;color:var(--dk);display:flex;align-items:center;gap:12px;letter-spacing:-.01em}
+#s7 .fd-title::before{content:"";width:5px;height:24px;background:var(--r);border-radius:2px;flex:none}
+#s7 .fd-sub{font-size:13.5px;color:var(--su);font-weight:500;font-style:italic;margin-top:10px;padding-left:17px}
+#s7 .fd-div{height:1px;background:var(--bd);margin-top:18px}
+#s7 .fd-cards{position:absolute;top:196px;left:52px;right:52px;bottom:80px;
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+#s7 .fd-card{background:var(--lt);border:1px solid var(--bd);border-radius:10px;
+  padding:34px 26px;display:flex;flex-direction:column;align-items:center;text-align:center}
+#s7 .fd-ic{width:60px;height:60px;border-radius:50%;background:#fff;border:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:22px}
+#s7 .fd-ct{font-size:16.5px;font-weight:700;color:var(--dk);margin-bottom:14px}
+#s7 .fd-cd{font-size:12.5px;color:var(--su);font-weight:500;line-height:1.7}
+#s7 .fd-footer{position:absolute;left:0;right:0;bottom:0;height:56px;background:var(--lt);
+  border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:center;gap:8px}
+#s7 .fd-footer span{font-size:12.5px;color:var(--su);font-weight:500}
+#s7 .fd-footer b{color:var(--r);font-weight:700}
+#s7 .numbers{position:absolute;top:44px;left:0;right:0;height:220px;
+  display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;background:rgba(0,0,0,.12)}
+#s7 .num-sep{background:rgba(255,255,255,.15)}
+#s7 .num-card{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+#s7 .num-n{font-size:72px;font-weight:700;color:#fff;line-height:1;letter-spacing:-.03em}
+#s7 .num-l{font-size:14px;color:rgba(255,255,255,.7);font-weight:500;margin-top:10px;letter-spacing:.08em}
+#s7 .msg-area{position:absolute;top:264px;left:0;right:0;padding:0 80px;text-align:center}
+#s7 .msg-area h2{font-size:54px;font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+#s7 .msg-area p{font-size:17px;color:rgba(255,255,255,.75);font-weight:500;line-height:1.6}
+#s7 .author-row{position:absolute;bottom:120px;left:80px;right:80px;
+  border-top:1px solid rgba(255,255,255,.2);padding-top:20px;
+  font-size:13px;color:rgba(255,255,255,.65);font-weight:500;text-align:center}
+#s7 .link-grid{position:absolute;bottom:24px;left:60px;right:60px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+#s7 .lk{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  border-radius:5px;padding:10px 14px;text-decoration:none;display:block;transition:background .18s}
+#s7 .lk:hover{background:rgba(255,255,255,.22)}
+#s7 .lk .ln{font-size:12px;font-weight:700;color:#fff;margin-bottom:3px}
+#s7 .lk .lu{font-size:10px;color:rgba(255,255,255,.55);font-weight:500}
 </style>
 </head>
 <body>
 <div id="stage"><div id="deck">
 <div id="bar"></div>
 
-<!-- ════════════════════ 1. 표지 ════════════════════ -->
-<section class="slide" data-s="안녕하십니까, HR사업부문 교육운영파트 이헌정입니다. 오늘은 생성형 AI를 활용해 직접 만든 세 가지 교육 운영 시스템을 보여드리겠습니다. 설명 후 바로 실제 화면을 함께 보실 수 있습니다. (약 20초)">
+<!-- ██ 1. 표지 ██ -->
+<section class="slide" data-s="안녕하십니까, HR사업부문 교육운영파트 이헌정입니다. 오늘은 생성형 AI를 활용해 직접 만든 교육 운영 디지털 전환 사례를 발표하겠습니다. 세 가지 시스템 각각 실제 사이트를 보여드리는 데모 발표로 진행됩니다. (약 20초)">
 <div id="s1">
-  <div class="bl1"></div><div class="bl2"></div>
-  <span class="ht">교육운영 - 디지털 전환 프로젝트</span><span class="ht2"><img src="https://www.biztechon.com/img/common/logo.png" style="height:18px;object-fit:contain;vertical-align:middle;" alt="BizTech On" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"><span style="display:none;align-items:center;gap:0;font-size:11px;font-weight:700;letter-spacing:.01em;"><span style="color:var(--sky)">Biz</span><span style="color:var(--sub);font-weight:500">Tech</span><span style="color:var(--sky)">On</span></span></span>
-  <div class="lft">
-    <svg width="380" height="390" viewBox="0 0 380 390" fill="none">
-      <ellipse cx="190" cy="220" rx="148" ry="88" fill="#FDF0F3" opacity=".5"/>
-      <path d="M52 190 L124 232 L124 124 L52 82Z" fill="#5A001A"/>
-      <path d="M52 82 L124 124 L250 68 L178 26Z" fill="#A50034"/>
-      <path d="M124 124 L124 232 L250 176 L250 68Z" fill="#8B0028"/>
-      <g transform="translate(132,74) skewY(-18)">
-        <rect x="0" y="0" width="15" height="50" rx="3" fill="#C4003E"/>
-        <rect x="21" y="-14" width="15" height="64" rx="3" fill="#A50034"/>
-        <rect x="42" y="-26" width="15" height="76" rx="3" fill="#8B0028"/>
-      </g>
-      <circle cx="76" cy="192" r="30" fill="#FBF0F4" stroke="#A50034" stroke-width="2.5"/>
-      <path d="M76 192 L76 162 A30 30 0 0 1 106 192Z" fill="#A50034"/>
-      <path d="M76 192 L106 192 A30 30 0 0 1 55 218Z" fill="#8B0028"/>
-      <g transform="translate(224,52)">
-        <rect x="0" y="70" width="19" height="104" rx="4" fill="#EE9AAF"/>
-        <rect x="26" y="44" width="19" height="130" rx="4" fill="#C4003E"/>
-        <rect x="52" y="20" width="19" height="154" rx="4" fill="#A50034"/>
-        <ellipse cx="9.5" cy="70" rx="9.5" ry="4.2" fill="#F5CBD5"/>
-        <ellipse cx="35.5" cy="44" rx="9.5" ry="4.2" fill="#EE9AAF"/>
-        <ellipse cx="61.5" cy="20" rx="9.5" ry="4.2" fill="#C4003E"/>
-      </g>
-      <circle cx="188" cy="298" r="28" fill="#FBF0F4" stroke="#A50034" stroke-width="3.5"/>
-      <line x1="208" y1="318" x2="228" y2="338" stroke="#8B0028" stroke-width="5" stroke-linecap="round"/>
-      <rect x="56" y="38" rx="7" width="102" height="24" fill="white" stroke="#D8E4EE" stroke-width="1"/>
-      <text x="107" y="54" text-anchor="middle" font-size="12" fill="#8B0028" font-weight="700" font-family="GmarketSans,sans-serif">교육운영파트</text>
-      <rect x="210" y="250" rx="7" width="88" height="24" fill="white" stroke="#D8E4EE" stroke-width="1"/>
-      <text x="254" y="266" text-anchor="middle" font-size="12" fill="#8B0028" font-weight="700" font-family="GmarketSans,sans-serif">운영 시스템</text>
-      <line x1="107" y1="62" x2="94" y2="80" stroke="#C8DCF0" stroke-width="1.2"/>
-      <line x1="254" y1="250" x2="240" y2="268" stroke="#C8DCF0" stroke-width="1.2"/>
-    </svg>
+  <div class="lp">
+    <div class="ev">'26년 교육운영파트 업무공유회</div>
+    <h1>교육 운영<br>디지털<br>전환</h1>
+    <div class="sub">교육 운영의 모든 정보를,<br>링크 하나로</div>
+    <div class="author">이헌정 · HR사업부문 교육운영파트<br>2026. 07</div>
   </div>
-  <div class="rgt">
-    <div class="ey">Education Operations DX</div>
-    <h1>교육 운영<br>디지털 전환</h1>
-    <div class="sub">교육 운영의 모든 정보를, 링크 하나로</div>
-    <div class="meta"><div class="ml">이헌정 / 교육운영파트</div><div class="mr">2026.07</div></div>
-    <div class="chips">
-      <span class="chip"><span class="d" style="background:#A50034"></span>과정 안내 시스템</span>
-      <span class="chip"><span class="d" style="background:#8B0028"></span>모바일 명찰 시스템</span>
-      <span class="chip"><span class="d" style="background:#6E001F"></span>실습 과제 시스템</span>
+  <div class="rp">
+    <div class="sec-label">이 발표에서 다루는 시스템</div>
+    <div class="sys-card">
+      <div class="sn">SYSTEM 01</div>
+      <div class="st">과정 안내 시스템</div>
+      <div class="sd">사번 입력 한 번으로 모든 교육 정보를 개인 맞춤 제공</div>
+    </div>
+    <div class="sys-card">
+      <div class="sn">SYSTEM 02</div>
+      <div class="st">모바일 명찰 시스템</div>
+      <div class="sd">종이 명찰을 없애고 출결·식권·설문까지 통합</div>
+    </div>
+    <div class="sys-card">
+      <div class="sn">SYSTEM 03</div>
+      <div class="st">실습 과제 시스템</div>
+      <div class="sd">파일 없이 웹에서 바로 작성·제출·자동 취합</div>
+    </div>
+    <div style="margin-top:20px;font-size:12px;color:#AAA;font-weight:500">
+      <img src="https://www.biztechon.com/img/common/logo.png" style="height:16px;object-fit:contain;vertical-align:middle;opacity:.5;margin-right:6px" onerror="this.style.display='none'">BizTech On
     </div>
   </div>
-  <div class="ft">Generative AI × Education Operations</div>
+  <div class="footer">Generative AI × Education Operations</div>
 </div>
 </section>
 
-<!-- ════════════════════ 2. 배경 & 제작 방식 ════════════════════ -->
-<section class="slide" data-s="왜 만들었냐면, 현장에서 반복되는 세 가지 문제 때문이었습니다. 과정마다 수작업 반복, 정보가 흩어져서 교육생도 담당자도 찾는 데 시간을 쓰고, 종이 명찰·컬러 출력 같은 소모품 비용. 이걸 Claude와 대화하면서 화면을 직접 만들고, 구글 시트로 데이터를 연결하고, GitHub Pages로 올리는 방식으로 해결했습니다. 개발자 없이, 비용 없이, 실무자 혼자 만들었습니다. 지금 바로 세 가지를 보여드리겠습니다. (약 40초)">
+<!-- ██ 2. 목차 ██ -->
+<section class="slide" data-s="발표 순서를 말씀드리겠습니다. 먼저 왜, 어떻게 만들었는지 배경을 설명드리고, 세 가지 시스템을 각각 설명 후 실제 사이트를 직접 보여드리겠습니다. (약 15초)">
 <div id="s2">
-  <div class="hb"><span>'26년 교육운영파트 업무공유회</span><span style="display:flex;align-items:center;gap:8px;">
-  <img src="https://www.biztechon.com/img/common/logo.png" style="height:20px;object-fit:contain;vertical-align:middle;" alt="BizTech On" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"><span style="display:none;align-items:center;gap:0;font-size:11px;font-weight:700;letter-spacing:.01em;"><span style="color:var(--sky)">Biz</span><span style="color:var(--sub);font-weight:500">Tech</span><span style="color:var(--sky)">On</span></span>
-</span></div>
-  <div class="stitle">왜, 어떻게 만들었나</div>
-  <div class="ssub">현장의 반복 문제를 실무자가 직접 해결했습니다</div>
-  <div class="dv"></div>
-  <div class="lft">
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
+  </div>
+  <div class="title-row">
+    <h2>발표 순서</h2>
+    <p>설명 후 실제 사이트를 직접 시연합니다</p>
+  </div>
+  <div class="toc-grid">
+    <div class="tc">
+      <div class="tn">00</div>
+      <div class="tt">배경</div>
+      <div class="td">왜 만들었나, 어떻게 만들었나</div>
+    </div>
+    <div class="tc active">
+      <div class="tn">01</div>
+      <div class="tt">과정 안내 시스템</div>
+      <div class="td">단순 안내문에서 사번 기반 개인 맞춤 페이지로</div>
+      <span class="demo-badge">▶ 시연 포함</span>
+    </div>
+    <div class="tc active">
+      <div class="tn">02</div>
+      <div class="tt">모바일 명찰 시스템</div>
+      <div class="td">종이 명찰에서 교육 운영 통합 플랫폼으로</div>
+      <span class="demo-badge">▶ 시연 포함</span>
+    </div>
+    <div class="tc active">
+      <div class="tn">03</div>
+      <div class="tt">실습 과제 시스템</div>
+      <div class="td">파일 제출에서 웹 기반 자동 수집으로</div>
+      <span class="demo-badge">▶ 시연 포함</span>
+    </div>
+  </div>
+  <div class="note">Claude · Google Sheets · Apps Script · GitHub Pages — 개발자 없이, 비용 없이, 실무자가 직접 만들었습니다</div>
+</div>
+</section>
+
+<!-- ██ 3. 배경 ██ -->
+<section class="slide" data-s="시작은 현장의 세 가지 반복 문제였습니다. 과정마다 수작업이 반복되고, 정보는 여러 채널에 흩어져 있고, 종이 소모품 비용이 지속 발생했습니다. 이걸 Claude와 함께 기획하고, 구글 시트로 데이터를 연결하고, GitHub Pages에 올리는 방식으로 해결했습니다. 개발자 없이, 비용 없이, 실무자 혼자서 만들었습니다. (약 35초)">
+<div id="s3">
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
+  </div>
+  <div class="s3-head">
+    <h2>왜, 어떻게 만들었나</h2>
+    <p>현장의 반복 문제를 실무자가 직접 해결했습니다</p>
+  </div>
+  <div class="left">
+    <div class="sec-title">해결해야 했던 문제들</div>
     <div class="prob">
-      <div class="ico">🔁</div>
-      <div class="pt">반복 수작업</div>
-      <div class="pb">과정마다 안내문·명찰·과제 취합을 처음부터 반복</div>
+      <div class="pn">01</div>
+      <div><div class="pt">반복 수작업</div><div class="pd">과정마다 안내문·명찰·과제 취합을 처음부터 반복.<br>담당자의 시간과 에너지가 소모됩니다.</div></div>
     </div>
     <div class="prob">
-      <div class="ico">🗂️</div>
-      <div class="pt">정보 분산</div>
-      <div class="pb">설문·배차·시설 안내가 메일·팀즈·첨부에 흩어짐</div>
+      <div class="pn">02</div>
+      <div><div class="pt">정보 분산</div><div class="pd">설문·배차·시설 안내가 메일·팀즈·첨부에 흩어져<br>교육생과 담당자 모두 찾는 데 시간을 씁니다.</div></div>
     </div>
     <div class="prob">
-      <div class="ico">💸</div>
-      <div class="pt">비용 낭비</div>
-      <div class="pb">종이 명찰·컬러 출력·외피 등 소모품 비용 지속 발생</div>
+      <div class="pn">03</div>
+      <div><div class="pt">불필요한 비용</div><div class="pd">종이 명찰·컬러 출력·외피 등 소모품 비용이<br>과정마다 지속 발생합니다.</div></div>
     </div>
   </div>
-  <div class="rgt">
-    <div class="rgt-title">해결 방식 — 제작 스택</div>
-    <div class="flow">
-      <div class="fn">
-        <div class="fi">🤖</div>
-        <div><div class="ft">Claude</div><div class="fs">대화로 화면·기능 직접 설계·제작</div></div>
-      </div>
-      <div class="fn-arr">↓</div>
-      <div class="fn">
-        <div class="fi">📊</div>
-        <div><div class="ft">Google Sheets</div><div class="fs">참가자·출결·제출 데이터 관리</div></div>
-      </div>
-      <div class="fn-arr">↓</div>
-      <div class="fn">
-        <div class="fi">⚙️</div>
-        <div><div class="ft">Apps Script</div><div class="fs">사번 조회 · 출결 기록 · 데이터 연동 API</div></div>
-      </div>
-      <div class="fn-arr">↓</div>
-      <div class="fn">
-        <div class="fi">🌐</div>
-        <div><div class="ft">GitHub Pages</div><div class="fs">무료 호스팅 · 링크 하나로 즉시 배포</div></div>
-      </div>
+  <div class="right">
+    <div class="sec-title">해결 방식 — 제작 스택</div>
+    <div class="stack-item"><div class="si">🤖</div><div><div class="sn">Claude</div><div class="sd">대화로 화면·기능 직접 설계 및 제작</div></div></div>
+    <div class="stack-arr">↓</div>
+    <div class="stack-item"><div class="si">📊</div><div><div class="sn">Google Sheets</div><div class="sd">참가자·출결·제출 데이터 관리</div></div></div>
+    <div class="stack-arr">↓</div>
+    <div class="stack-item"><div class="si">⚙️</div><div><div class="sn">Apps Script</div><div class="sd">사번 조회·출결 기록·데이터 연동 API</div></div></div>
+    <div class="stack-arr">↓</div>
+    <div class="stack-item"><div class="si">🌐</div><div><div class="sn">GitHub Pages</div><div class="sd">무료 호스팅 · 링크 하나로 즉시 배포</div></div></div>
+    <div class="chips-r">
+      <span class="cr">개발자 없이</span>
+      <span class="cr">비용 0원</span>
+      <span class="cr">실무자 1인 제작</span>
+      <span class="cr">즉시 반영</span>
     </div>
-  </div>
-  <div class="bots">
-    <span class="bchip">개발자 없이</span>
-    <span class="bchip">비용 0원</span>
-    <span class="bchip">실무자 1인 제작</span>
-    <span class="bchip">시트 수정 = 즉시 반영</span>
   </div>
 </div>
 </section>
 
-<!-- ════════════════════ 3. CASE 01 — 과정 안내 ════════════════════ -->
-<section class="slide" data-s="첫 번째, 과정 안내 시스템입니다. 기존에는 일정·준비사항 중심의 단순 안내문을 메일로 발송하고, 추가 정보는 링크·첨부파일로 따로따로 보냈습니다. HTML 기반 통합 사전안내문으로 전환해 사전 설문, 설문 이력 조회, 배차 안내, 참가확인서, 시설 안내까지 링크 하나에 담았습니다. 사업장 안팎 어디서나 접근 가능하고, 표준 양식으로 제작 공수도 크게 줄었습니다. 지금 바로 보여드리겠습니다. (약 40초)">
+<!-- ██ 4. Case 01 ██ -->
+<section class="slide" data-s="첫 번째, 과정 안내 시스템입니다. 기존에는 단순 안내문을 메일로 발송하고 설문·배차는 따로 보냈습니다. 이제는 HTML 기반 통합 사전안내문 하나로, 사전 설문부터 배차·참가확인서·시설 안내까지 링크 하나에 담았습니다. 자체 설문 시스템도 구축해 타 플랫폼을 탈피했습니다. 지금 바로 보여드리겠습니다. (약 35초)">
 <div class="ci">
-  <div class="hb"><span>'26년 교육운영파트 업무공유회</span><span style="display:flex;align-items:center;gap:8px;">
-  <img src="https://www.biztechon.com/img/common/logo.png" style="height:20px;object-fit:contain;vertical-align:middle;" alt="BizTech On" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"><span style="display:none;align-items:center;gap:0;font-size:11px;font-weight:700;letter-spacing:.01em;"><span style="color:var(--sky)">Biz</span><span style="color:var(--sub);font-weight:500">Tech</span><span style="color:var(--sky)">On</span></span>
-</span></div>
-  <div class="c-badge">
-    <div class="c-num">1</div>
-    <span class="c-ey">CASE 01 — 과정 안내 시스템</span>
+  <div class="top-r"></div>
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
   </div>
-  <div class="c-title">단순 안내문 →&nbsp; <span style="color:var(--sky2)">교육 운영 정보를 통합한 HTML 사전안내문</span></div>
-  <div class="c-ba">
-    <div class="c-bef">
-      <span class="cc-label lb-bef">BEFORE</span>
-      <ul>
-        <li>교육 일정·준비사항 중심의 단순 안내문 운영</li>
-        <li>추가 정보 제공 시 링크·첨부파일을 개별 발송</li>
-        <li>사전 설문 수집에 타 플랫폼(모아폼) 의존 — 보안·관리 불편</li>
-        <li>과정별 안내문을 매번 새로 제작</li>
+  <div class="cs-head">
+    <div class="cs-eyebrow"><span class="bn">1</span>CASE 01 — 과정 안내 시스템</div>
+    <div class="cs-title">과정 안내문 디지털 전환</div>
+    <div class="cs-sub">"단순 정보 안내를 넘어 모든 필요 정보와 기능을 하나의 HTML 페이지로 통합"</div>
+    <div class="cs-div"></div>
+  </div>
+  <div class="cs-body list-2col">
+    <div class="ba2 before">
+      <div class="ba2-h">Before | 분산된 개별 안내</div>
+      <ul class="ba2-list">
+        <li class="ba2-item"><span class="mk">✕</span><span>교육 일정 및 준비사항 중심의 단순 텍스트 기반 안내</span></li>
+        <li class="ba2-item"><span class="mk">✕</span><span>추가 정보 제공 시 링크 및 첨부파일을 개별 발송하는 번거로움</span></li>
+        <li class="ba2-item"><span class="mk">✕</span><span>사전 설문 수집에 타 플랫폼(모아폼) 의존 — 보안·관리 불편</span></li>
+        <li class="ba2-item"><span class="mk">✕</span><span>과정별 안내문을 매번 새로 제작하여 불필요한 공수 발생</span></li>
       </ul>
     </div>
-    <div class="c-arr">→</div>
-    <div class="c-aft">
-      <span class="cc-label lb-aft">AFTER</span>
-      <ul>
-        <li class="key">HTML 기반 통합 사전안내문 구축</li>
-        <li>자체 설문 시스템 구축 — 타 플랫폼 탈피, 보안 강화 및 관리 효율화</li>
-        <li>사업장 내·외부 어디서나 편리하게 정보 확인 가능</li>
-        <li>표준화된 양식으로 제작 시간 및 운영 공수 절감</li>
+    <div class="ba2 after">
+      <div class="ba2-h">After | HTML 기반 통합 안내</div>
+      <ul class="ba2-list">
+        <li class="ba2-item"><span class="mk">✓</span><span><b>HTML 기반 통합 사전안내문 구축</b>으로 채널 일원화</span></li>
+        <li class="ba2-item"><span class="mk">✓</span><span>설문, 배차, 참가확인서, 시설 안내 등을 <b>하나의 링크로 제공</b></span></li>
+        <li class="ba2-item"><span class="mk">✓</span><span>자체 설문 시스템 구축 — 타 플랫폼 탈피, <b>보안 강화</b></span></li>
+        <li class="ba2-item"><span class="mk">✓</span><span><b>표준화된 양식</b> 적용으로 제작 시간 및 운영 공수 절감</span></li>
       </ul>
-      <div class="c-stats">
-        <span class="c-stat">JB-AX 1·2기</span>
-        <span class="c-stat">임원 AX 과정</span>
-        <span class="c-stat">REINVENT 2.0</span>
-        <span class="c-stat">글로벌 필드스터디</span>
-      </div>
     </div>
   </div>
-  <div class="c-next">
-    <span class="cn-label">NEXT STEP</span>
-    <ul class="cn-items">
-      <li>누구나 쉽게 활용 가능한 대표 템플릿 및 편집기 구축</li>
-      <li>다양한 교육과정에 확대 적용하여 교육 운영 표준화 추진</li>
-      <li>교육 운영 담당자 간 공유를 통한 디지털 운영 체계 확산</li>
-    </ul>
+  <div class="ns2-bar">
+    <span class="ns2-ic">↗</span><span class="ns2-label">NEXT STEP</span>
+    <span class="ns2-text">누구나 쉽게 활용 가능한 <b>대표 템플릿과 편집기</b>를 구축하여, 전 과정으로 확대 적용을 추진하겠습니다.</span>
   </div>
-  <div class="demo">
-    <div class="demo-icon">🎬</div>
-    <div class="demo-txt">시연</div>
-    <div class="demo-div"></div>
-    <div class="demo-links">
-      <a class="demo-link" href="#" onclick="openDemo('https://lgehqex.github.io/LGE_JB_AX_26-2/','JB AX 역량강화과정 안내문');return false;">
-        <div>
-          <div class="dl-name">JB AX 역량강화과정 안내문</div>
-          <span class="dl-url">lgehqex.github.io/LGE_JB_AX_26-2/</span>
-        </div>
-      </a>
-      <a class="demo-link" href="#" onclick="openDemo('https://lgehqex.github.io/fieldstudy_cn/202608','글로벌 혁신 필드스터디 안내문');return false;">
-        <div>
-          <div class="dl-name">글로벌 혁신 필드스터디 안내문</div>
-          <span class="dl-url">lgehqex.github.io/fieldstudy_cn/202608</span>
-        </div>
-      </a>
-      <a class="demo-link" href="#" onclick="openDemo('https://lgehqex.github.io/26LR/reg','📋 자체 설문 시스템');return false;">
-        <div>
-          <div class="dl-name">📋 자체 설문 시스템</div>
-          <span class="dl-url">lgehqex.github.io/26LR/reg</span>
-        </div>
-      </a>
-      <a class="demo-link" href="#" onclick="openDemo('https://lgehqex.github.io/Editor/','✏️ 사전안내문 에디터');return false;">
-        <div>
-          <div class="dl-name">✏️ 사전안내문 에디터</div>
-          <span class="dl-url">lgehqex.github.io/Editor/</span>
-        </div>
-      </a>
+  <div class="demo2">
+    <div class="demo2-ic">▶</div>
+    <div class="demo2-txt">시연</div>
+    <div class="demo2-sep"></div>
+    <div class="demo2-links">
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/LGE_JB_AX_26-2/','JB AX 역량강화과정 안내문');return false">JB AX 역량강화과정 안내문<span class="u">lgehqex.github.io/LGE_JB_AX_26-2/</span></a>
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/fieldstudy_cn/202608','글로벌 필드스터디 안내문');return false">글로벌 필드스터디 안내문<span class="u">lgehqex.github.io/fieldstudy_cn/202608</span></a>
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/26LR/reg','자체 설문 시스템');return false">📋 자체 설문 시스템<span class="u">lgehqex.github.io/26LR/reg</span></a>
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/Editor/','사전안내문 편집기');return false">✏️ 사전안내문 편집기<span class="u">lgehqex.github.io/Editor/</span></a>
     </div>
   </div>
 </div>
 </section>
 
-<!-- ════════════════════ 4. CASE 02 — 모바일 명찰 ════════════════════ -->
-<section class="slide" data-s="두 번째, 모바일 명찰입니다. 기존에는 명찰 제작부터 출력, 배부까지 전 과정이 수작업이었고, 인원 변동 시 재출력·재배포가 필요했습니다. 컬러 출력·명찰 외피 등 소모품 비용도 지속 발생했습니다. 모바일 명찰 도입으로 공수를 약 90% 절감하고 소모품 비용을 제거했습니다. 명찰 하나로 사전안내문, 설문, 시설 안내, 퀴즈 등 다양한 콘텐츠를 제공하는 통합 플랫폼이 됐고, 6개 과정 562명이 실제로 사용했습니다. 지금 바로 보여드리겠습니다. (약 45초)">
+<!-- ██ 5. Case 02 ██ -->
+<section class="slide" data-s="두 번째, 모바일 명찰입니다. 기존에는 명찰 제작부터 출력, 배부까지 전 과정이 수작업이었습니다. 이제는 링크 하나로 명찰·출결·식권·설문을 통합 제공합니다. 6개 과정 562명이 실제로 사용했고, 제작 공수를 90% 절감했습니다. 바로 보여드리겠습니다. (약 35초)">
 <div class="ci">
-  <div class="hb"><span>'26년 교육운영파트 업무공유회</span><span style="display:flex;align-items:center;gap:8px;">
-  <img src="https://www.biztechon.com/img/common/logo.png" style="height:20px;object-fit:contain;vertical-align:middle;" alt="BizTech On" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"><span style="display:none;align-items:center;gap:0;font-size:11px;font-weight:700;letter-spacing:.01em;"><span style="color:var(--sky)">Biz</span><span style="color:var(--sub);font-weight:500">Tech</span><span style="color:var(--sky)">On</span></span>
-</span></div>
-  <div class="c-badge">
-    <div class="c-num">2</div>
-    <span class="c-ey">CASE 02 — 모바일 명찰 시스템</span>
+  <div class="top-r"></div>
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
   </div>
-  <div class="c-title">종이 명찰 →&nbsp; <span style="color:var(--sky2)">명찰 하나로 교육 운영 콘텐츠를 통합 제공</span></div>
-  <div class="c-ba">
-    <div class="c-bef">
-      <span class="cc-label lb-bef">BEFORE</span>
-      <ul>
-        <li>명찰 제작·출력·배부까지 전 과정 수작업 운영</li>
-        <li>교육 인원 변동 시 명찰 재출력 및 재배포 필요</li>
-        <li>컬러 출력·명찰 외피 등 소모품 비용 지속 발생</li>
-        <li>명찰은 단순 신원 확인 용도로만 활용</li>
+  <div class="cs-head">
+    <div class="cs-eyebrow"><span class="bn">2</span>CASE 02 — 모바일 명찰 시스템</div>
+    <div class="cs-title">모바일 명찰 도입 성과</div>
+    <div class="cs-sub">"종이 명찰을 모바일로 전환하여 소모성 비용 제거 및 즉각적 관리 체계 구축"</div>
+    <div class="cs-div"></div>
+  </div>
+  <div class="cs-body stat-list">
+    <div class="stat-card">
+      <div class="stat-num">90%</div>
+      <div class="stat-label">↻ 명찰 관리 공수 절감</div>
+    </div>
+    <div class="info-card">
+      <div class="info-title">단순 신원 확인에서 '교육 콘텐츠 허브'로 진화</div>
+      <ul class="info-list">
+        <li class="info-item"><span class="ar">›</span><span><b>실시간 정보 수정:</b> 인원 변동 시 실시간 반영 및 재배포 즉각 지원</span></li>
+        <li class="info-item"><span class="ar">›</span><span><b>비용 효율성 제고:</b> 기존 소모품(컬러 인쇄물, 외피 등) 비용 완전 제거</span></li>
+        <li class="info-item"><span class="ar">›</span><span><b>원스톱 서비스:</b> 명찰 내 링크를 통해 설문, 퀴즈, 시설 안내 동시 제공</span></li>
+        <li class="info-item"><span class="ar">›</span><span><b>교육생 편의 극대화:</b> 여러 링크 필요 없이 명찰 하나로 모든 참여 준비 완료</span></li>
       </ul>
     </div>
-    <div class="c-arr">→</div>
-    <div class="c-aft">
-      <span class="cc-label lb-aft">AFTER</span>
-      <ul>
-        <li class="key">모바일 명찰 도입으로 즉각적인 정보 수정 및 배포 가능</li>
-        <li>명찰 제작·관리 공수를 기존 대비 약 90% 절감</li>
-        <li>종이 사용 및 소모품 비용 제거</li>
-        <li>사전안내문·설문·시설 안내·퀴즈 등 다양한 콘텐츠 통합 제공</li>
-      </ul>
-      <div class="c-stats">
-        <span class="c-stat">6개 과정 적용</span>
-        <span class="c-stat">누적 8회 운영</span>
-        <span class="c-stat">562명 사용</span>
-        <span class="c-stat">공수 90%↓</span>
-      </div>
-    </div>
   </div>
-  <div class="c-next">
-    <span class="cn-label">NEXT STEP</span>
-    <ul class="cn-items">
-      <li>숙소 안내·객실 배정 SMS 기능을 모바일 명찰 내로 통합</li>
-      <li>문자 발송 비용 절감 및 스팸 메시지 오인 이슈 개선</li>
-      <li>QR 기반 식권 시스템 구축 검토</li>
-      <li>모바일 명찰을 교육 운영 통합 플랫폼으로 확대</li>
-    </ul>
+  <div class="ns2-bar">
+    <span class="ns2-ic">↗</span><span class="ns2-label">NEXT STEP</span>
+    <span class="ns2-text">문자 발송 비용 절감을 위한 <b>알림톡 내재화</b> 및 <b>QR 기반 식권 연동</b> 등 '교육 운영 통합 플랫폼' 확장을 검토 중입니다.</span>
   </div>
-  <div class="demo">
-    <div class="demo-icon">🎬</div>
-    <div class="demo-txt">시연</div>
-    <div class="demo-div"></div>
-    <div class="demo-links">
-      <a class="demo-link" href="#" onclick="openDemo('https://lgehqex.github.io/26LR/DNT','러닝센터 모바일 명찰');return false;">
-        <div>
-          <div class="dl-name">러닝센터 모바일 명찰</div>
-          <span class="dl-url">lgehqex.github.io/26LR/DNT</span>
-        </div>
-      </a>
+  <div class="demo2">
+    <div class="demo2-ic">▶</div>
+    <div class="demo2-txt">시연</div>
+    <div class="demo2-sep"></div>
+    <div class="demo2-links">
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/26LR/DNT','러닝센터 모바일 명찰');return false">러닝센터 모바일 명찰<span class="u">lgehqex.github.io/26LR/DNT</span></a>
     </div>
   </div>
 </div>
 </section>
 
-<!-- ════════════════════ 5. CASE 03 — 실습 과제 ════════════════════ -->
-<section class="slide" data-s="세 번째, 실습 과제 시스템입니다. 기존에는 PPT 양식을 배포하고 작성 파일을 Teams에 재업로드하는 방식으로 운영했고, 제출·확인 과정이 복잡하며 결과를 별도로 취합·정리해야 했습니다. HTML 기반 사이트로 전환해 작성→확인의 2단계로 단순화했고, 데이터가 자동으로 Google Sheets에 수집됩니다. 지금 수강생 페이지와 강사 확인 페이지를 함께 보여드리겠습니다. (약 35초)">
+
+<!-- ██ 6. Case 03 ██ -->
+<section class="slide" data-s="세 번째, 실습 과제 시스템입니다. 기존에는 PPT 양식을 배포하고 Teams에 재업로드하는 방식이었습니다. 이제는 사번 입력하면 웹에서 바로 작성·제출하고, 데이터가 자동으로 구글 시트에 수집됩니다. 수강생 페이지와 강사 확인 페이지를 함께 보여드리겠습니다. (약 30초)">
 <div class="ci">
-  <div class="hb"><span>'26년 교육운영파트 업무공유회</span><span style="display:flex;align-items:center;gap:8px;">
-  <img src="https://www.biztechon.com/img/common/logo.png" style="height:20px;object-fit:contain;vertical-align:middle;" alt="BizTech On" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"><span style="display:none;align-items:center;gap:0;font-size:11px;font-weight:700;letter-spacing:.01em;"><span style="color:var(--sky)">Biz</span><span style="color:var(--sub);font-weight:500">Tech</span><span style="color:var(--sky)">On</span></span>
-</span></div>
-  <div class="c-badge">
-    <div class="c-num">3</div>
-    <span class="c-ey">CASE 03 — 실습 과제 시스템</span>
+  <div class="top-r"></div>
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
   </div>
-  <div class="c-title">파일 제출 →&nbsp; <span style="color:var(--sky2)">웹 기반 작성 · 제출 · 자동 수집 사이트 구축</span></div>
-  <div class="c-ba">
-    <div class="c-bef">
-      <span class="cc-label lb-bef">BEFORE</span>
-      <ul>
-        <li>실습 과제를 PPT 양식으로 배포 후 개별 작성</li>
-        <li>작성된 파일을 저장하여 Teams에 재업로드하는 방식</li>
-        <li>제출·확인 과정이 복잡하고 반복 작업 발생</li>
-        <li>제출 결과를 별도로 취합·정리해야 하는 번거로움</li>
-      </ul>
-    </div>
-    <div class="c-arr">→</div>
-    <div class="c-aft">
-      <span class="cc-label lb-aft">AFTER</span>
-      <ul>
-        <li class="key">HTML 기반 실습 과제 작성·확인 사이트 구축</li>
-        <li>작성 → 확인의 2단계 프로세스로 제출 절차 단순화</li>
-        <li>파일 없이 웹에서 즉시 작성 · Google Sheets 자동 수집</li>
-        <li>실습 결과 취합 및 후속 분석 업무 간소화</li>
-      </ul>
-      <div class="c-stats">
-        <span class="c-stat">REINVENT 2.0 팀리더 과정 적용</span>
-        <span class="c-stat">수강생·강사 화면 분리 운영</span>
-      </div>
-    </div>
+  <div class="cs-head">
+    <div class="cs-eyebrow"><span class="bn">3</span>CASE 03 — 실습 과제 시스템</div>
+    <div class="cs-title">실습 과제 제출 및 확인 사이트 구축</div>
+    <div class="cs-sub">"PPT 기반 수동 수집 프로세스를 웹 기반 자동화 구조로 전면 혁신"</div>
+    <div class="cs-div"></div>
   </div>
-  <div class="c-next">
-    <span class="cn-label">NEXT STEP</span>
-    <ul class="cn-items">
-      <li>과정별 맞춤형 실습 템플릿 확대 적용</li>
-      <li>제출 데이터 기반 결과 분석 및 대시보드 연계</li>
-      <li>교육 운영 전반의 과제·실습 관리 플랫폼으로 확장</li>
-    </ul>
+  <div class="cs-body table-wrap">
+    <table class="cmp">
+      <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
+      <thead><tr><th class="h1">비교 항목</th><th class="h2">Before (과거 방식)</th><th class="h3">After (웹 기반 혁신)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="rowh">과제 양식 및 배포</td>
+          <td><span class="tag gy">수동</span>PPT 템플릿 배포 및 파일 관리</td>
+          <td><span class="tag rd">자동</span>웹 브라우저 접속 후 즉시 작성</td>
+        </tr>
+        <tr>
+          <td class="rowh">제출 프로세스</td>
+          <td><span class="tag gy">복잡</span>다운로드 → 개별 작성 → Teams 수동 업로드</td>
+          <td><span class="tag rd">단순</span>웹 입력 → 원클릭 제출 (2단계 단순화)</td>
+        </tr>
+        <tr>
+          <td class="rowh">데이터 취합 및 정리</td>
+          <td><span class="tag gy">번거로움</span>담당자가 직접 수십 개의 파일을 다운받아 수합</td>
+          <td><span class="tag rd">자동화</span>제출 데이터가 Google Sheets로 실시간 자동 취합</td>
+        </tr>
+        <tr>
+          <td class="rowh">후속 분석</td>
+          <td>개별 파일 오픈 후 수동 비교 및 통계 처리 필요</td>
+          <td>취합된 시트 기반으로 실시간 대시보드 연계 가능</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div class="demo">
-    <div class="demo-icon">🎬</div>
-    <div class="demo-txt">시연</div>
-    <div class="demo-div"></div>
-    <div class="demo-links">
-      <a class="demo-link" href="#" onclick="openDemo('https://lgehqex.github.io/26teamleader/submit','(수강생) 과제 제출 페이지');return false;">
-        <div>
-          <div class="dl-name">(수강생) 과제 제출 페이지</div>
-          <span class="dl-url">lgehqex.github.io/26teamleader/submit</span>
-        </div>
-      </a>
-      <a class="demo-link" href="#" onclick="openDemo('https://lgehqex.github.io/26teamleader/admin','(강사) 제출 현황 · 피드백 페이지');return false;">
-        <div>
-          <div class="dl-name">(강사) 제출 현황 · 피드백 페이지</div>
-          <span class="dl-url">lgehqex.github.io/26teamleader/admin</span>
-        </div>
-      </a>
+  <div class="ns2-bar">
+    <span class="ns2-ic">↗</span><span class="ns2-label">NEXT STEP</span>
+    <span class="ns2-text">과정별 특성을 반영한 <b>맞춤형 실습 템플릿</b>을 확대 적용하고, <b>데이터 기반 결과 분석 대시보드</b>를 구축하겠습니다.</span>
+  </div>
+  <div class="demo2">
+    <div class="demo2-ic">▶</div>
+    <div class="demo2-txt">시연</div>
+    <div class="demo2-sep"></div>
+    <div class="demo2-links">
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/26teamleader/submit','(수강생) 과제 제출 페이지');return false">(수강생) 과제 제출 페이지<span class="u">lgehqex.github.io/26teamleader/submit</span></a>
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/26teamleader/admin','(강사) 제출 현황·피드백');return false">(강사) 제출 현황 · 피드백<span class="u">lgehqex.github.io/26teamleader/admin</span></a>
     </div>
   </div>
 </div>
 </section>
 
-<!-- ════════════════════ 7. 클로징 ════════════════════ -->
-<section class="slide" data-s="정리하겠습니다. 운영은 가볍게, 정보는 링크로. 개발자가 없어도, 예산이 없어도, 현장을 가장 잘 아는 사람이 Claude와 함께 직접 만들 수 있다는 것을 보여드렸습니다. 감사합니다. (약 20초)">
+<!-- ██ 7. 마무리 ██ -->
+<section class="slide" data-s="정리하겠습니다. 세 가지 시스템으로 개별 영역을 효율화하는 데 그치지 않고, 앞으로는 전사 교육 운영을 관통하는 표준 디지털 플랫폼을 지향합니다. 대표 템플릿과 편집기로 운영을 표준화하고, 단순 반복 업무는 자동화하며, 쌓인 데이터를 지능형 교육 플랫폼으로 발전시키겠습니다. 감사합니다. (약 25초)">
 <div id="s7">
-  <div class="hb hb-dk"><span>'26년 교육운영파트 업무공유회</span><span style="display:flex;align-items:center;gap:8px;">
-  <img src="https://www.biztechon.com/img/common/logo.png" style="height:20px;object-fit:contain;vertical-align:middle;filter:brightness(0) invert(1);" alt="BizTech On" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex'"><span style="display:none;align-items:center;gap:0;font-size:11px;font-weight:700;letter-spacing:.01em;"><span style="color:rgba(255,255,255,.9)">Biz</span><span style="color:rgba(255,255,255,.7);font-weight:500">Tech</span><span style="color:rgba(255,255,255,.9)">On</span></span></div>
-  <div class="bl1"></div>
-  <div class="lft">
-    <svg width="340" height="340" viewBox="0 0 340 340" fill="none">
-      <circle cx="170" cy="170" r="148" fill="rgba(255,255,255,0.07)"/>
-      <circle cx="170" cy="170" r="105" fill="rgba(255,255,255,0.05)"/>
-      <circle cx="170" cy="112" r="32" fill="rgba(255,255,255,0.17)" stroke="rgba(255,255,255,0.42)" stroke-width="2"/>
-      <text x="170" y="120" text-anchor="middle" font-size="19" fill="white" font-family="GmarketSans,sans-serif">🔗</text>
-      <circle cx="92" cy="205" r="25" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.32)" stroke-width="2"/>
-      <text x="92" y="213" text-anchor="middle" font-size="16" fill="white" font-family="GmarketSans,sans-serif">📱</text>
-      <circle cx="248" cy="205" r="25" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.32)" stroke-width="2"/>
-      <text x="248" y="213" text-anchor="middle" font-size="16" fill="white" font-family="GmarketSans,sans-serif">📄</text>
-      <circle cx="132" cy="284" r="21" fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.26)" stroke-width="2"/>
-      <text x="132" y="292" text-anchor="middle" font-size="14" fill="white" font-family="GmarketSans,sans-serif">✅</text>
-      <circle cx="216" cy="284" r="21" fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.26)" stroke-width="2"/>
-      <text x="216" y="292" text-anchor="middle" font-size="14" fill="white" font-family="GmarketSans,sans-serif">📊</text>
-      <line x1="170" y1="144" x2="107" y2="186" stroke="rgba(255,255,255,0.32)" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <line x1="170" y1="144" x2="233" y2="186" stroke="rgba(255,255,255,0.32)" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <line x1="100" y1="227" x2="124" y2="266" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <line x1="240" y1="227" x2="224" y2="266" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <text x="170" y="44" text-anchor="middle" font-size="13" fill="rgba(255,255,255,0.88)" font-weight="700" font-family="GmarketSans,sans-serif">링크 하나로</text>
-    </svg>
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
   </div>
-  <div class="rgt">
-    <div class="ey">Education Operations DX</div>
-    <h2>운영은 가볍게,<br>정보는 링크로.</h2>
-    <div class="tg">현장을 가장 잘 아는 사람이<br>현장의 문제를 직접 해결합니다.</div>
-    <div class="mt">이헌정 / HR사업부문 교육운영파트 &nbsp;|&nbsp; 감사합니다</div>
-    <div class="lks">
-      <a class="lk" href="https://lgehqex.github.io/26LR/DNT" target="_blank"><div class="ln">러닝센터 모바일 명찰</div><div class="lu">lgehqex.github.io/26LR/DNT</div></a>
-      <a class="lk" href="https://lgehqex.github.io/LGE_JB_AX_26-2/" target="_blank"><div class="ln">JB AX 과정 안내문</div><div class="lu">lgehqex.github.io/LGE_JB_AX_26-2</div></a>
-      <a class="lk" href="https://lgehqex.github.io/26teamleader/submit" target="_blank"><div class="ln">과제 제출 페이지</div><div class="lu">lgehqex.github.io/26teamleader/submit</div></a>
-      <a class="lk" href="https://lgehqex.github.io/fieldstudy_cn/202608" target="_blank"><div class="ln">글로벌 필드스터디 안내문</div><div class="lu">lgehqex.github.io/fieldstudy_cn/202608</div></a>
+  <div class="fd-head">
+    <div class="fd-title">교육 운영 DX 종합 추진 방향</div>
+    <div class="fd-sub">"개별 영역의 효율화를 넘어 전사 교육 운영을 관통하는 표준 디지털 플랫폼 지향"</div>
+    <div class="fd-div"></div>
+  </div>
+  <div class="fd-cards">
+    <div class="fd-card">
+      <div class="fd-ic">📦</div>
+      <div class="fd-ct">교육 운영 표준화</div>
+      <div class="fd-cd">과정 안내, 모바일 명찰, 실습 도구 등 핵심 영역의 대표 템플릿과 간이 편집기를 배포하여 누구나 고품질의 DX 도구를 쉽게 생산하도록 지원합니다.</div>
     </div>
+    <div class="fd-card">
+      <div class="fd-ic">⚙️</div>
+      <div class="fd-ct">단순 업무 자동화</div>
+      <div class="fd-cd">명찰 출력 및 수거, 파일 취합, 개별 설문 조사 등 단순 반복 영역을 완전히 자동화하여 교육 운영 담당자들의 고부가가치 기획 업무 집중을 돕습니다.</div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-ic">📈</div>
+      <div class="fd-ct">데이터 기반 L&D 체계</div>
+      <div class="fd-cd">수집된 교육생의 데이터(참여 이력, 실습 성과, 설문 데이터 등)를 실시간 분석 대시보드와 연결하여 차세대 지능형 교육 플랫폼으로 도약합니다.</div>
+    </div>
+  </div>
+  <div class="fd-footer">
+    <span>이헌정 · HR사업부문 교육운영파트</span><span>&nbsp;|&nbsp;</span><span><b>감사합니다</b></span>
   </div>
 </div>
 </section>
 
-<!-- 데모 슬라이딩 패널 -->
-<div id="demo-overlay" onclick="closeDemo()"></div>
+<!-- 데모 패널 -->
+<div id="demo-ov" onclick="closeDemo()"></div>
 <div id="demo-panel">
   <div id="dpbar">
     <span id="dp-title">시연</span>
-    <button id="dp-newtab" onclick="window.open(dpIframe.src,'_blank')" title="새 창으로 열기">↗</button>
+    <button id="dp-new" onclick="window.open(dpIf.src,'_blank')" title="새 창">↗</button>
     <button id="dp-close" onclick="closeDemo()">✕</button>
   </div>
   <iframe id="dp-iframe" src="" allow="clipboard-write"></iframe>
 </div>
+
 <!-- 조작 UI -->
 <div id="nav"><span id="pn"></span><button id="prev">‹</button><button id="next">›</button></div>
-<div id="hint">← → 이동 · S 스크립트 · F 전체화면</div>
+<div id="hint">← → 이동 &nbsp;·&nbsp; S 스크립트 &nbsp;·&nbsp; F 전체화면</div>
 <div id="sp"><div class="t">발표 스크립트</div><div id="st"></div></div>
 </div></div>
 
 <script>
-
-const demoPanel = document.getElementById('demo-panel');
-const demoOverlay = document.getElementById('demo-overlay');
-const dpIframe = document.getElementById('dp-iframe');
-const dpTitle = document.getElementById('dp-title');
-function openDemo(url, name) {
-  dpIframe.src = url;
-  dpTitle.textContent = name;
-  demoPanel.classList.add('open');
-  demoOverlay.classList.add('open');
-}
-function closeDemo() {
-  demoPanel.classList.remove('open');
-  demoOverlay.classList.remove('open');
-  setTimeout(() => { dpIframe.src = ''; }, 380);
-}
-
 const slides=[...document.querySelectorAll('.slide')];let cur=0;
 const bar=document.getElementById('bar'),pn=document.getElementById('pn');
-const panel=document.getElementById('sp'),stext=document.getElementById('st');
+const sPanel=document.getElementById('sp'),sText=document.getElementById('st');
+const dPanel=document.getElementById('demo-panel');
+const dOv=document.getElementById('demo-ov');
+const dpIf=document.getElementById('dp-iframe');
+const dpTl=document.getElementById('dp-title');
+
 function show(i){
   cur=Math.max(0,Math.min(slides.length-1,i));
   slides.forEach((s,j)=>s.classList.toggle('on',j===cur));
   bar.style.width=((cur+1)/slides.length*100)+'%';
   pn.textContent=(cur+1)+' / '+slides.length;
-  stext.textContent=slides[cur].dataset.s||'';
+  sText.textContent=slides[cur].dataset.s||'';
 }
+function openDemo(url,name){dpIf.src=url;dpTl.textContent=name;dPanel.classList.add('open');dOv.classList.add('open')}
+function closeDemo(){dPanel.classList.remove('open');dOv.classList.remove('open');setTimeout(()=>{dpIf.src=''},360)}
+
 document.getElementById('prev').onclick=()=>show(cur-1);
 document.getElementById('next').onclick=()=>show(cur+1);
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){closeDemo();return;}
-  if(demoPanel.classList.contains('open'))return;
-  if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(cur+1);}
-  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1);}
+  if(e.key==='Escape'){closeDemo();return}
+  if(dPanel.classList.contains('open'))return;
+  if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(cur+1)}
+  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
   else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);
-  else if(e.key.toLowerCase()==='s')panel.classList.toggle('on');
+  else if(e.key.toLowerCase()==='s')sPanel.classList.toggle('on');
   else if(e.key.toLowerCase()==='f')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
 });
 let tx=null;
 document.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
-document.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)show(cur+(dx<0?1:-1));tx=null;});
-function fit(){const s=Math.min(innerWidth/1280,innerHeight/720)*(document.fullscreenElement?1:.97);document.getElementById('deck').style.transform='scale('+s+')';}
+document.addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)show(cur+(d<0?1:-1));tx=null});
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720)*(document.fullscreenElement?1:.97);document.getElementById('deck').style.transform='scale('+s+')'}
 addEventListener('resize',fit);document.addEventListener('fullscreenchange',fit);fit();show(0);
 </script>
 </body>
