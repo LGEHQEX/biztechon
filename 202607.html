@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>교육 운영 디지털 전환</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap');
+@font-face{font-family:'GMS';font-weight:300;src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquarel.woff') format('woff')}
+@font-face{font-family:'GMS';font-weight:400;src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquarer.woff') format('woff')}
+@font-face{font-family:'GMS';font-weight:500;src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquarer.woff') format('woff')}
+@font-face{font-family:'GMS';font-weight:700;src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquareb.woff') format('woff')}
+@font-face{font-family:'GMS';font-weight:800;src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquareeb.woff') format('woff')}
+:root{--r:#A50034;--r2:#8B0028;--dk:#111;--tx:#333;--su:#666;--lt:#F5F5F5;--bd:#E8E8E8;--wh:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#D0D0D0;overflow:hidden;
+  font-family:'GMS','Noto Sans KR','Malgun Gothic',sans-serif;-webkit-font-smoothing:antialiased}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#deck{width:1280px;height:720px;position:relative;overflow:hidden;
+  box-shadow:0 28px 80px rgba(0,0,0,.35);border-radius:3px;transform-origin:center}
+.slide{position:absolute;inset:0;display:none;background:#fff}
+.slide.on{display:block;animation:fi .28s ease}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+#bar{position:absolute;top:0;left:0;height:3px;background:var(--r);z-index:9;width:0;transition:width .3s}
+
+/* 공통 헤더 */
+.hb{position:absolute;top:0;left:0;right:0;height:44px;display:flex;align-items:center;
+  justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--bd);background:#fff;z-index:4}
+.hb .hl{font-size:11px;color:var(--su);letter-spacing:.05em;font-weight:500}
+.hb .hr{display:flex;align-items:center;gap:7px}
+.hb .hr img{height:18px;object-fit:contain;vertical-align:middle}
+.hb .hr .lf{display:none;font-size:11.5px;font-weight:700;color:var(--r)}.hb .hr .lf em{color:var(--su);font-style:normal;font-weight:500}
+.hb-dk{background:rgba(0,0,0,.15);border-bottom:1px solid rgba(255,255,255,.1)}
+.hb-dk .hl,.hb-dk .hr .lf{color:rgba(255,255,255,.65)}
+
+/* 네비 */
+#nav{position:absolute;right:14px;bottom:12px;display:flex;gap:4px;align-items:center;z-index:10}
+#nav button{border:1px solid var(--bd);background:rgba(255,255,255,.9);border-radius:5px;
+  width:26px;height:26px;cursor:pointer;font-size:13px;color:var(--su)}
+#nav button:hover{background:var(--r);color:#fff;border-color:var(--r)}
+#pn{font-size:11px;color:#555;font-weight:700}
+#hint{position:absolute;left:14px;bottom:13px;font-size:11px;color:#666;font-weight:500;z-index:10}
+#sp{position:absolute;left:0;right:0;bottom:0;background:rgba(8,8,8,.97);color:#CCC;
+  padding:16px 48px 20px;font-size:13px;line-height:1.8;
+  transform:translateY(100%);transition:transform .25s;z-index:12}
+#sp.on{transform:none}
+#sp .t{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--r);margin-bottom:5px}
+
+/* ══════════ 슬라이드 1 — 표지 ══════════ */
+#s1">
+<div id="s1">
+  <div class="s1-logo">
+    <img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <span class="lf">BizTechOn</span>
+  </div>
+  <div class="center">
+    <span class="pill">'26년 교육운영파트 업무공유회</span>
+    <h1>교육 운영 프로세스 <em>디지털 전환</em></h1>
+    <div class="sub">단순 반복 업무의 자동화 및 모바일 통합을 통한 운영 효율화 보고</div>
+    <div class="author">이헌정 · HR사업부문 교육운영파트 &nbsp;|&nbsp; 2026. 07</div>
+  </div>
+  <div class="footer">Generative AI × Education Operations</div>
+</div>
+</section>
+
+<!-- ██ 2. 목차 ██ -->
+<section class="slide" data-s="발표 순서를 말씀드리겠습니다. 먼저 왜, 어떻게 만들었는지 배경을 설명드리고, 세 가지 시스템을 각각 설명 후 실제 사이트를 직접 보여드리겠습니다. (약 15초)">
+<div id="s2">
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
+  </div>
+  <div class="title-row">
+    <h2>발표 순서</h2>
+    <p>설명 후 실제 사이트를 직접 시연합니다</p>
+  </div>
+  <div class="toc-grid">
+    <div class="tc">
+      <div class="tn">00</div>
+      <div class="tt">배경</div>
+      <div class="td">왜 만들었나, 어떻게 만들었나</div>
+    </div>
+    <div class="tc active">
+      <div class="tn">01</div>
+      <div class="tt">과정 안내 시스템</div>
+      <div class="td">단순 안내문에서 사번 기반 개인 맞춤 페이지로</div>
+      <span class="demo-badge">▶ 시연 포함</span>
+    </div>
+    <div class="tc active">
+      <div class="tn">02</div>
+      <div class="tt">모바일 명찰 시스템</div>
+      <div class="td">종이 명찰에서 교육 운영 통합 플랫폼으로</div>
+      <span class="demo-badge">▶ 시연 포함</span>
+    </div>
+    <div class="tc active">
+      <div class="tn">03</div>
+      <div class="tt">실습 과제 시스템</div>
+      <div class="td">파일 제출에서 웹 기반 자동 수집으로</div>
+      <span class="demo-badge">▶ 시연 포함</span>
+    </div>
+  </div>
+  <div class="note">Claude · Google Sheets · Apps Script · GitHub Pages — 개발자 없이, 비용 없이, 실무자가 직접 만들었습니다</div>
+</div>
+</section>
+
+<!-- ██ 3. 배경 ██ -->
+<section class="slide" data-s="시작은 현장의 세 가지 반복 문제였습니다. 과정마다 수작업이 반복되고, 정보는 여러 채널에 흩어져 있고, 종이 소모품 비용이 지속 발생했습니다. 이걸 Claude와 함께 기획하고, 구글 시트로 데이터를 연결하고, GitHub Pages에 올리는 방식으로 해결했습니다. 개발자 없이, 비용 없이, 실무자 혼자서 만들었습니다. (약 35초)">
+<div id="s3">
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
+  </div>
+  <div class="s3-head">
+    <h2>왜, 어떻게 만들었나</h2>
+    <p>현장의 반복 문제를 실무자가 직접 해결했습니다</p>
+  </div>
+  <div class="left">
+    <div class="sec-title">해결해야 했던 문제들</div>
+    <div class="prob">
+      <div class="pn">01</div>
+      <div><div class="pt">반복 수작업</div><div class="pd">과정마다 안내문·명찰·과제 취합을 처음부터 반복.<br>담당자의 시간과 에너지가 소모됩니다.</div></div>
+    </div>
+    <div class="prob">
+      <div class="pn">02</div>
+      <div><div class="pt">정보 분산</div><div class="pd">설문·배차·시설 안내가 메일·팀즈·첨부에 흩어져<br>교육생과 담당자 모두 찾는 데 시간을 씁니다.</div></div>
+    </div>
+    <div class="prob">
+      <div class="pn">03</div>
+      <div><div class="pt">불필요한 비용</div><div class="pd">종이 명찰·컬러 출력·외피 등 소모품 비용이<br>과정마다 지속 발생합니다.</div></div>
+    </div>
+  </div>
+  <div class="right">
+    <div class="sec-title">해결 방식 — 제작 스택</div>
+    <div class="stack-item"><div class="si">🤖</div><div><div class="sn">Claude</div><div class="sd">대화로 화면·기능 직접 설계 및 제작</div></div></div>
+    <div class="stack-arr">↓</div>
+    <div class="stack-item"><div class="si">📊</div><div><div class="sn">Google Sheets</div><div class="sd">참가자·출결·제출 데이터 관리</div></div></div>
+    <div class="stack-arr">↓</div>
+    <div class="stack-item"><div class="si">⚙️</div><div><div class="sn">Apps Script</div><div class="sd">사번 조회·출결 기록·데이터 연동 API</div></div></div>
+    <div class="stack-arr">↓</div>
+    <div class="stack-item"><div class="si">🌐</div><div><div class="sn">GitHub Pages</div><div class="sd">무료 호스팅 · 링크 하나로 즉시 배포</div></div></div>
+    <div class="chips-r">
+      <span class="cr">개발자 없이</span>
+      <span class="cr">비용 0원</span>
+      <span class="cr">실무자 1인 제작</span>
+      <span class="cr">즉시 반영</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ██ 4. Case 01 ██ -->
+<section class="slide" data-s="첫 번째, 과정 안내 시스템입니다. 기존에는 단순 안내문을 메일로 발송하고 설문·배차는 따로 보냈습니다. 이제는 HTML 기반 통합 사전안내문 하나로, 사전 설문부터 배차·참가확인서·시설 안내까지 링크 하나에 담았습니다. 자체 설문 시스템도 구축해 타 플랫폼을 탈피했습니다. 지금 바로 보여드리겠습니다. (약 35초)">
+<div class="ci">
+  <div class="top-r"></div>
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
+  </div>
+  <div class="cs-head">
+    <div class="cs-eyebrow"><span class="bn">1</span>CASE 01 — 과정 안내 시스템</div>
+    <div class="cs-title">과정 안내문 디지털 전환</div>
+    <div class="cs-sub">"단순 정보 안내를 넘어 모든 필요 정보와 기능을 하나의 HTML 페이지로 통합"</div>
+    <div class="cs-div"></div>
+  </div>
+  <div class="cs-body list-2col">
+    <div class="ba2 before">
+      <div class="ba2-h" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Before | 분산된 개별 안내</span>
+        <button class="ex-btn" onclick="openImg('https://lgehqex.github.io/biztechon/error2.png','기존 방식 — 개별 메일 발송 예시')">🖼 예시 보기</button>
+      </div>
+      <ul class="ba2-list">
+        <li class="ba2-item"><span class="mk">✕</span><span>교육 일정 및 준비사항 중심의 단순 텍스트 기반 안내</span></li>
+        <li class="ba2-item"><span class="mk">✕</span><span>추가 정보 제공 시 링크 및 첨부파일을 개별 발송하는 번거로움</span></li>
+        <li class="ba2-item"><span class="mk">✕</span><span>사전 설문 수집에 타 플랫폼(모아폼) 의존 — 보안·관리 불편</span></li>
+        <li class="ba2-item"><span class="mk">✕</span><span>과정별 안내문을 매번 새로 제작하여 불필요한 공수 발생</span></li>
+      </ul>
+    </div>
+    <div class="ba2 after">
+      <div class="ba2-h">After | HTML 기반 통합 안내</div>
+      <ul class="ba2-list">
+        <li class="ba2-item"><span class="mk">✓</span><span><b>HTML 기반 통합 사전안내문 구축</b>으로 채널 일원화</span></li>
+        <li class="ba2-item"><span class="mk">✓</span><span>설문, 배차, 참가확인서, 시설 안내 등을 <b>하나의 링크로 제공</b></span></li>
+        <li class="ba2-item"><span class="mk">✓</span><span>자체 설문 시스템 구축 — 타 플랫폼 탈피, <b>보안 강화</b></span></li>
+        <li class="ba2-item"><span class="mk">✓</span><span><b>표준화된 양식</b> 적용으로 제작 시간 및 운영 공수 절감</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ns2-bar">
+    <span class="ns2-ic">↗</span><span class="ns2-label">NEXT STEP</span>
+    <span class="ns2-text">누구나 쉽게 활용 가능한 <b>대표 템플릿과 편집기</b>를 구축하여, 전 과정으로 확대 적용을 추진하겠습니다.</span>
+  </div>
+  <div class="demo2">
+    <div class="demo2-ic">▶</div>
+    <div class="demo2-txt">시연</div>
+    <div class="demo2-sep"></div>
+    <div class="demo2-links">
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/LGE_JB_AX_26-2/','JB AX 역량강화과정 안내문');return false">JB AX 역량강화과정 안내문<span class="u">lgehqex.github.io/LGE_JB_AX_26-2/</span></a>
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/fieldstudy_cn/202608','글로벌 필드스터디 안내문');return false">글로벌 필드스터디 안내문<span class="u">lgehqex.github.io/fieldstudy_cn/202608</span></a>
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/26LR/reg','자체 설문 시스템');return false">📋 자체 설문 시스템<span class="u">lgehqex.github.io/26LR/reg</span></a>
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/Editor/','사전안내문 편집기');return false">✏️ 사전안내문 편집기<span class="u">lgehqex.github.io/Editor/</span></a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ██ 5. Case 02 (고도화 반영 구역) ██ -->
+<section class="slide" data-s="두 번째, 모바일 명찰입니다. 기존에는 명찰 제작부터 출력, 배부까지 전 과정이 수작업이었습니다. 이제는 링크 하나로 명찰·출결·식권·설문을 통합 제공합니다. 6개 과정 562명이 실제로 사용했고, 제작 공수를 90% 절감했습니다. 바로 보여드리겠습니다. (약 35초)">
+<div class="ci">
+  <div class="top-r"></div>
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
+  </div>
+  <div class="cs-head">
+    <div class="cs-eyebrow"><span class="bn">2</span>CASE 02 — 모바일 명찰 시스템</div>
+    <div class="cs-title">모바일 명찰 도입 성과</div>
+    <div class="cs-sub">"종이 명찰을 모바일로 전환하여 소모성 비용 제거 및 즉각적 관리 체계 구축"</div>
+    <div class="cs-div"></div>
+  </div>
+  
+  <div class="cs-body stat-list-updated">
+    <!-- 왼쪽: 고도화된 CSS 기반 스마트폰 목업 -->
+    <div class="phone-mockup">
+      <div class="phone-screen">
+        <div class="phone-island"></div>
+        <div class="phone-header">BizTechOn 러닝센터</div>
+        <div class="phone-content">
+          <div class="phone-avatar">👤</div>
+          <div class="phone-name">홍길동 프로</div>
+          <div class="phone-dept">HR사업부문 교육운영파트</div>
+          <div class="phone-passcode">
+            <div class="p-lbl">출결 인증 PASSCODE</div>
+            <div class="p-val">2 6 0 7</div>
+          </div>
+          <div class="phone-menu">
+            <div class="phone-btn">🍽 식권</div>
+            <div class="phone-btn">📋 설문</div>
+            <div class="phone-btn">📍 시설</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 오른쪽: 에디토리얼 스타일의 성과 대시보드 -->
+    <div class="right-info-stack">
+      <div class="metric-dashboard">
+        <div class="metric-main-box">
+          <span class="num">90<span class="unit">%</span></span>
+          <span class="lbl">공수 절감</span>
+        </div>
+        <div class="metric-sub-grid">
+          <div class="metric-sub-item">
+            <div class="val">6<span>개</span></div>
+            <div class="lbl">적용 과정</div>
+          </div>
+          <div class="metric-sub-item">
+            <div class="val">8<span>차수</span></div>
+            <div class="lbl">운영 횟수</div>
+          </div>
+          <div class="metric-sub-item">
+            <div class="val">562<span>명</span></div>
+            <div class="lbl">대상 교육생</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 입체감이 부여된 정보 카드 -->
+      <div class="info-card-updated">
+        <div class="info-title-updated">단순 신원 확인에서 '교육 콘텐츠 허브'로 진화</div>
+        <ul class="info-list-updated">
+          <li class="info-item-updated"><b>원스톱 서비스:</b> 여러 링크 필요 없이 명찰 내 버튼으로 식권, 설문, 시설 안내 연동</li>
+          <li class="info-item-updated"><b>출결 자동 기록:</b> 개별 PASSCODE 입력 즉시 구글 시트에 실시간 적재되어 오기·누락 제거</li>
+          <li class="info-item-updated"><b>비용 효율성 극대화:</b> 기존 소모품(컬러 인쇄지, 명찰 외피 등) 비용 완전 제로화</li>
+          <li class="info-item-updated"><b>실시간 정보 반영:</b> 갑작스러운 인원 변동 발생 시 데이터 시트 수정으로 즉각 대처 지원</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ns2-bar">
+    <span class="ns2-ic">↗</span><span class="ns2-label">NEXT STEP</span>
+    <span class="ns2-text">문자 발송 비용 절감을 위한 <b>알림톡 내재화</b> 및 <b>QR 기반 식권 연동</b> 등 '교육 운영 통합 플랫폼' 확장을 검토 중입니다.</span>
+  </div>
+  <div class="demo2">
+    <div class="demo2-ic">▶</div>
+    <div class="demo2-txt">시연</div>
+    <div class="demo2-sep"></div>
+    <div class="demo2-links">
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/26LR/DNT','러닝센터 모바일 명찰');return false">러닝센터 모바일 명찰<span class="u">lgehqex.github.io/26LR/DNT</span></a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ██ 6. Case 03 ██ -->
+<section class="slide" data-s="세 번째, 실습 과제 시스템입니다. 기존에는 PPT 양식을 배포하고 Teams에 재업로드하는 방식이었습니다. 이제는 사번 입력하면 웹에서 바로 작성·제출하고, 데이터가 자동으로 구글 시트에 수집됩니다. 수강생 페이지와 강사 확인 페이지를 함께 보여드리겠습니다. (약 30초)">
+<div class="ci">
+  <div class="top-r"></div>
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
+  </div>
+  <div class="cs-head">
+    <div class="cs-eyebrow"><span class="bn">3</span>CASE 03 — 실습 과제 시스템</div>
+    <div class="cs-title">실습 과제 제출 및 확인 사이트 구축</div>
+    <div class="cs-sub">"PPT 기반 수동 수집 프로세스를 웹 기반 자동화 구조로 전면 혁신"</div>
+    <div class="cs-div"></div>
+  </div>
+  <div class="cs-body table-wrap">
+    <table class="cmp">
+      <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
+      <thead><tr><th class="h1">비교 항목</th><th class="h2"><span style="display:flex;align-items:center;justify-content:space-between">Before (과거 방식)<button class="ex-btn" onclick="openImg('https://lgehqex.github.io/biztechon/error1.png','기존 방식 — 파일 제출 예시')">🖼 예시</button></span></th><th class="h3">After (웹 기반 혁신)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="rowh">과제 양식 및 배포</td>
+          <td><span class="tag gy">수동</span>PPT 템플릿 배포 및 파일 관리</td>
+          <td><span class="tag rd">자동</span>웹 브라우저 접속 후 즉시 작성</td>
+        </tr>
+        <tr>
+          <td class="rowh">제출 프로세스</td>
+          <td><span class="tag gy">복잡</span>다운로드 → 개별 작성 → Teams 수동 업로드</td>
+          <td><span class="tag rd">단순</span>웹 입력 → 원클릭 제출 (2단계 단순화)</td>
+        </tr>
+        <tr>
+          <td class="rowh">데이터 취합 및 정리</td>
+          <td><span class="tag gy">번거로움</span>담당자가 직접 수십 개의 파일을 다운받아 수합</td>
+          <td><span class="tag rd">자동화</span>제출 데이터가 Google Sheets로 실시간 자동 취합</td>
+        </tr>
+        <tr>
+          <td class="rowh">후속 분석</td>
+          <td>개별 파일 오픈 후 수동 비교 및 통계 처리 필요</td>
+          <td>취합된 시트 기반으로 실시간 대시보드 연계 가능</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="ns2-bar">
+    <span class="ns2-ic">↗</span><span class="ns2-label">NEXT STEP</span>
+    <span class="ns2-text">과정별 특성을 반영한 <b>맞춤형 실습 템플릿</b>을 확대 적용하고, <b>데이터 기반 결과 분석 대시보드</b>를 구축하겠습니다.</span>
+  </div>
+  <div class="demo2">
+    <div class="demo2-ic">▶</div>
+    <div class="demo2-txt">시연</div>
+    <div class="demo2-sep"></div>
+    <div class="demo2-links">
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/26teamleader/submit','(수강생) 과제 제출 페이지');return false">(수강생) 과제 제출 페이지<span class="u">lgehqex.github.io/26teamleader/submit</span></a>
+      <a class="demo2-link" href="#" onclick="openDemo('https://lgehqex.github.io/26teamleader/admin','(강사) 제출 현황·피드백');return false">(강사) 제출 현황 · 피드백<span class="u">lgehqex.github.io/26teamleader/admin</span></a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ██ 7. 마무리 ██ -->
+<section class="slide" data-s="정리하겠습니다. 세 가지 시스템으로 개별 영역을 효율화하는 데 그치지 않고, 앞으로는 전사 교육 운영을 관통하는 표준 디지털 플랫폼을 지향합니다. 대표 템플릿과 편집기로 운영을 표준화하고, 단순 반복 업무는 자동화하며, 쌓인 데이터를 지능형 교육 플랫폼으로 발전시키겠습니다. 감사합니다. (약 25초)">
+<div id="s7">
+  <div class="hb hb-white">
+    <span class="hl">'26년 교육운영파트 업무공유회</span>
+    <div class="hr"><img src="https://www.biztechon.com/img/common/logo.png" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="lf" style="display:none">BizTech<em>On</em></span></div>
+  </div>
+  <div class="fd-head">
+    <div class="fd-title">교육 운영 DX 종합 추진 방향</div>
+    <div class="fd-div"></div>
+  </div>
+  <div class="fd-body">
+    <div class="fd-cards">
+      <div class="fd-card">
+        <div class="fd-ic">📦</div>
+        <div class="fd-ct">교육 운영 표준화</div>
+        <div class="fd-cd">과정 안내, 모바일 명찰, 실습 도구 등 핵심 영역의 대표 템플릿과 간이 편집기를 제공하여 누구나 쉽게 DX 도구를 제작하고 활용할 수 있도록 합니다.</div>
+      </div>
+      <div class="fd-card">
+        <div class="fd-ic">⚙️</div>
+        <div class="fd-ct">단순 업무 자동화</div>
+        <div class="fd-cd">명찰 출력, 파일 취합, 설문 운영 등 반복 업무를 자동화하여 운영 담당자가 기획과 운영에 더욱 집중할 수 있도록 합니다.</div>
+      </div>
+      <div class="fd-card">
+        <div class="fd-ic">📈</div>
+        <div class="fd-ct">데이터 기반 교육 운영</div>
+        <div class="fd-cd">교육 참여, 실습 결과, 설문 데이터 등을 한곳에서 관리하고 분석하여 더 나은 교육을 기획하고 운영할 수 있도록 합니다.</div>
+      </div>
+    </div>
+    <div class="fd-quote">개별 업무의 디지털화를 넘어, 전사 교육 운영을 연결하는 <b>표준 플랫폼</b>을 만들어가겠습니다.</div>
+  </div>
+  <div class="fd-footer">
+    <span>이헌정 · HR사업부문 교육운영파트</span><span>&nbsp;|&nbsp;</span><span><b>감사합니다</b></span>
+  </div>
+</div>
+</section>
+
+<!-- 예시 이미지 모달 -->
+<div id="img-modal" onclick="closeImgOnBg(event)">
+  <div class="img-modal-inner">
+    <div class="img-modal-bar">
+      <span id="img-modal-title">예시</span>
+      <button onclick="closeImg()">✕</button>
+    </div>
+    <img id="img-modal-img" src="" alt="예시 이미지">
+  </div>
+</div>
+
+<!-- 데모 패널 -->
+<div id="demo-ov" onclick="closeDemo()"></div>
+<div id="demo-panel">
+  <div id="dpbar">
+    <span id="dp-title">시연</span>
+    <button id="dp-new" onclick="window.open(dpIf.src,'_blank')" title="새 창">↗</button>
+    <button id="dp-close" onclick="closeDemo()">✕</button>
+  </div>
+  <iframe id="dp-iframe" src="" allow="clipboard-write"></iframe>
+</div>
+
+<!-- 조작 UI -->
+<div id="nav"><span id="pn"></span><button id="prev">‹</button><button id="next">›</button></div>
+<div id="hint">← → 이동 &nbsp;·&nbsp; S 스크립트 &nbsp;·&nbsp; F 전체화면</div>
+<div id="sp"><div class="t">발표 스크립트</div><div id="st"></div></div>
+</div></div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];let cur=0;
+const bar=document.getElementById('bar'),pn=document.getElementById('pn');
+const sPanel=document.getElementById('sp'),sText=document.getElementById('st');
+const dPanel=document.getElementById('demo-panel');
+const dOv=document.getElementById('demo-ov');
+const dpIf=document.getElementById('dp-iframe');
+const dpTl=document.getElementById('dp-title');
+
+function show(i){
+  cur=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,j)=>s.classList.toggle('on',j===cur));
+  bar.style.width=((cur+1)/slides.length*100)+'%';
+  pn.textContent=(cur+1)+' / '+slides.length;
+  sText.textContent=slides[cur].dataset.s||'';
+}
+function openDemo(url,name){dpIf.src=url;dpTl.textContent=name;dPanel.classList.add('open');dOv.classList.add('open')}
+function closeDemo(){dPanel.classList.remove('open');dOv.classList.remove('open');setTimeout(()=>{dpIf.src=''},360)}
+const imgModal=document.getElementById('img-modal');
+const imgModalImg=document.getElementById('img-modal-img');
+const imgModalTitle=document.getElementById('img-modal-title');
+function openImg(url,title){imgModalImg.src=url;imgModalTitle.textContent=title||'예시 이미지';imgModal.classList.add('open')}
+function closeImg(){imgModal.classList.remove('open')}
+function closeImgOnBg(e){if(e.target.id==='img-modal')closeImg()}
+
+document.getElementById('prev').onclick=()=>show(cur-1);
+document.getElementById('next').onclick=()=>show(cur+1);
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeImg();closeDemo();return}
+  if(imgModal.classList.contains('open'))return;
+  if(dPanel.classList.contains('open'))return;
+  if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();show(cur+1)}
+  else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
+  else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);
+  else if(e.key.toLowerCase()==='s')sPanel.classList.toggle('on');
+  else if(e.key.toLowerCase()==='f')document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+});
+let tx=null;
+document.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+document.addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)show(cur+(d<0?1:-1));tx=null});
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720)*(document.fullscreenElement?1:.97);document.getElementById('deck').style.transform='scale('+s+')'}
+addEventListener('resize',fit);document.addEventListener('fullscreenchange',fit);fit();show(0);
+</script>
+</body>
+</html>
